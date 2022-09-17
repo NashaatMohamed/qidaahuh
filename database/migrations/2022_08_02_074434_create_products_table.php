@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('details')->nullable();
             $table->string('main_image');
             $table->string('images');
-            $table->integer('category_id');
+            $table->foreignId("category_id")->constrained();
             $table->integer('regular_price');
             $table->integer('sale_price')->nullable();
             $table->boolean('active');

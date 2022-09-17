@@ -16,11 +16,9 @@ class CreateSubCategoriesTable extends Migration
         Schema::create('sub_categories', function (Blueprint $table) {
             $table->id();
             $table->string('sub_name');
-
-            $table->string('category_id');
+            $table->foreignId("category_id")->constrained();
             $table->string('photo');
             $table->boolean('active');
-
             $table->timestamps();
         });
     }
