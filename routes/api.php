@@ -50,3 +50,6 @@ Route::post('/carts', [CartController::class, 'store']);
 Route::post('/carts/{id}', [CartController::class, 'addProducts']);
 Route::post('/carts/{id}/checkout', [CartController::class, 'checkout']);
  Route::get('product', [ProductController::class, 'index']);
+
+
+Route::get("search/{title}",[ProductController::class,'searchproduct']);

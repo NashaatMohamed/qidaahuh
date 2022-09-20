@@ -100,6 +100,7 @@ class ProductController extends Controller
 
         $requestData['main_image'] = $imageName;
         $requestData['images'] = "1";
+        
 
         product::create($requestData);
         Session::flash("msg","s: تمت الإضافة بنجاح");
@@ -190,8 +191,16 @@ class ProductController extends Controller
         return redirect(route("products.index"));
     }
 
-    public function searchproduct($i,$k){
-        // Product::
+    public function searchproduct($title){
+        $result  = Product::where("title" , "like","%$title%")->get();
+        if(count($result)){
+             return response()->json($result);
+        }else{
+            return response()->json(["result" => "this product not Found"],404);
+        }
     }
+
+
+
 
 }

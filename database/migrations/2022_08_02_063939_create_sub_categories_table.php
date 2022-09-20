@@ -18,7 +18,7 @@ class CreateSubCategoriesTable extends Migration
             $table->string('sub_name');
             $table->foreignId("category_id")->constrained();
             $table->string('photo');
-            $table->boolean('active');
+            $table->boolean('active')->default("1");
             $table->timestamps();
         });
     }
