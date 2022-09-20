@@ -20,10 +20,13 @@ class CreateProductsTable extends Migration
             $table->string('details')->nullable();
             $table->string('main_image');
             $table->string('images');
-            $table->foreignId("category_id")->constrained();
+            $table->unSignedBigInteger("subcategory_id");
+            $table->foreign("subcategory_id")->references("id")->on("sub_categories");
+            $table->unSignedBigInteger("offer_id");
+            $table->foreign("offer_id")->nullable()->references("id")->on("offers");
             $table->integer('regular_price');
             $table->integer('sale_price')->nullable();
-            $table->boolean('active');
+            $table->boolean('active')->default(1);
             $table->unsignedInteger('quantity')->default(10);
             $table->timestamps();
         });

@@ -39,3 +39,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('product', [ProductController::class, 'index']);
     Route::post('favourite/product', [HomeController::class, 'favourite']);
 });
+
+Route::get("search/{title}",[ProductController::class,'searchproduct']);
