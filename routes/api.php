@@ -43,10 +43,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('carts', 'CartController')->except(['update', 'index']);
 // Route::post('/carts/{cart}/checkout', 'CartController@checkout');
 
- Route::get('product', [ProductController::class, 'index']);
 });
    
 // Route::post('/carts/{cart}','App\Http\Controllers\CartController@addProducts');
 Route::post('/carts', [CartController::class, 'store']);
 Route::post('/carts/{id}', [CartController::class, 'addProducts']);
 Route::post('/carts/{id}/checkout', [CartController::class, 'checkout']);
+ Route::get('product', [ProductController::class, 'index']);
