@@ -49,13 +49,13 @@ Route::post('/carts/{id}/checkout', [CartController::class, 'checkout']);
 Route::get('/show/carts', [CartController::class, 'show']);
 Route::get('/carts/{id}/delete', [CartController::class, 'destroy']);
 Route::get('/carts/delete/all', [CartController::class, 'delete']);
+Route::get('product', [ProductController::class, 'index']);
 
 
 
 });
+Route::get("search/{title}",[ProductController::class,'searchproduct']);
 
 // Route::post('/carts', [CartController::class, 'store']);
- Route::get('product', [ProductController::class, 'index']);
 
 
-Route::get("search/{title}",[ProductController::class,'searchproduct']);
