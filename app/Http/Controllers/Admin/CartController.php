@@ -212,7 +212,7 @@ $productID= $product->id;
 
     }
     
-    public function show()
+    public function show($id)
     {
        if (Auth::guard('api')->check()) {
             $userID = auth('api')->user()->getKey();
@@ -241,7 +241,7 @@ $productID= $product->id;
     public function destroy($id)
     {
 
-        $CartItem = CartItem::where('user_id',auth('api')->user()->getKey())->where('id',$id)->delete();
+        $CartItem = CartItem::where('user_id',auth('api')->user()->getKey())->where('product_id',$id)->delete();
      
         return response()->json([
             'message' => 'delete  succefully!',

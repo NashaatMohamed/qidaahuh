@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Favourite;
+use DB;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -19,64 +22,94 @@ class HomeController extends Controller
 
     public function favourite(Request $request): \Illuminate\Http\JsonResponse
     {
-        $request = $request->input('product_id');
-        if (!$request == Product::find($request)) {
-            $data = [
-                'status' => false,
-                'statusCode' => 422,
-                'message' => 'There is no Product has this id',
-                'items' => '',
-
-            ];
-
-            return response()->json($data);
-        }
        
-
-
-        $favourites = Favourite::create([
-            'product_id' => $request,
-            'user_id' => Auth::user()->id,
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
         ]);
 
-        $data = [
-            'status' => true,
-            'statusCode' => 200,
-            'message' => 'product has been added to your favorites',
-            'items' => $favourites,
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+        if (Auth::guard('api')->check()) {
+            $userID = auth('api')->user()->getKey();
+        }
 
-        ];
+        $productID = $request->input('product_id');
 
-        return response()->json($data);
+        
+            //Check if the proudct exist or return 404 not found.
+            try { $Product = Product::findOrFail($productID);} catch (ModelNotFoundException $e) {
+                return response()->json([
+                    'message' => 'The Product you\'re trying to add does not exist.',
+                ], 404);
+            }
+
+            //check if the the same product is already in the Cart, if true update the quantity, if not create a new one.
+            $Favourite = Favourite::where( ['user_id'=>$userID,'product_id' => $productID])->first();
+            if ($Favourite) {
+                Favourite::where(['user_id'=>$userID, 'product_id' => $productID]);
+            } else {
+                Favourite::create(['user_id'=>$userID, 'product_id' => $productID]);
+            }
+
+            return response()->json(['message' => 'The Favourite was updated with the given product information successfully'], 200);
+
+       
+    
     }
 
    
-    public function show(Favourite $Favourite)
+   
+    public function show($id)
     {
-        if($Favourite->user_id == Auth::user()->id){
+       if (Auth::guard('api')->check()) {
+            $userID = auth('api')->user()->getKey();
+        }
+        // $userID = Auth::user()->id;
+
+        $Favourite = DB::table('favourites')
+        ->join('products', 'products.id', '=', 'favourites.product_id')
+        ->where('favourites.user_id', '=', auth('api')->user()->getKey())
+        ->select([
+            'products.title',
+            'products.main_image',
+            'products.sale_price',
+            'favourites.product_id',
+            'favourites.id'
+        ])
+        ->get();
+
              return $Favourite;
-         }else{
-            return response()->json([
-                'message' => 'The Favourite you\'re trying to view doesn\'t seem to be yours, .',
-            ], 403);
-         }
+        
+
+
+    }
+    public function destroy($id)
+    {
+       
+        $Favourite = Favourite::where('user_id',auth('api')->user()->getKey())->where('product_id',$id)->delete();
+     
+        return response()->json([
+            'message' => 'delete  succefully!',
+            'Favourite' => $Favourite,
+        ], 200); 
+    }
+    public function delete()
+    {
+
+        $Favourite = Favourite::where('user_id',auth('api')->user()->getKey())->delete();
+
+       return response()->json([
+        'message' => 'delete all succefully!',
+        'Favourite' => $Favourite,
+    ], 200); 
 
     }
 }
 
    
  
-// $CartItemm = DB::table('cart_items')
-// ->join('products', 'products.id', '=', 'cart_items.product_id')
-// ->where('cart_items.user_id', '=', Auth::user()->id)
-// ->select([
-//     'products.title',
-//     'products.main_image',
-//     'products.sale_price',
-//     'cart_items.quantity',
-//     'cart_items.id'
-// ])
-// ->get();
 
-//      return $CartItemm;
 
