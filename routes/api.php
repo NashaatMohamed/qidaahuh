@@ -35,20 +35,26 @@ Route::post('reset/password', [NewPasswordController::class, 'reset']);
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/edit/user', [AuthController::class, 'updateProfile']);
-    Route::post('user/{id}/delete', [AuthController::class, 'destroy']);
+    Route::get('user/{id}/delete', [AuthController::class, 'destroy']);
     Route::get('show/user/{id}', [AuthController::class, 'details']);
     Route::get('show/category/{id}', [CategoryController::class, 'show']);
     Route::post('favourite/product', [HomeController::class, 'favourite']);
+    Route::get('favourite/show/{id}', [HomeController::class, 'show']);
+
     Route::apiResource('orders', 'OrderController')->except(['update', 'destroy','store']);
     Route::apiResource('carts', 'CartController')->except(['update', 'index']);
 // Route::post('/carts/{cart}/checkout', 'CartController@checkout');
-
-});
-   
-// Route::post('/carts/{cart}','App\Http\Controllers\CartController@addProducts');
-Route::post('/carts', [CartController::class, 'store']);
 Route::post('/carts/{id}', [CartController::class, 'addProducts']);
 Route::post('/carts/{id}/checkout', [CartController::class, 'checkout']);
+Route::get('/show/carts', [CartController::class, 'show']);
+Route::get('/carts/{id}/delete', [CartController::class, 'destroy']);
+Route::get('/carts/delete/all', [CartController::class, 'delete']);
+
+
+
+});
+
+// Route::post('/carts', [CartController::class, 'store']);
  Route::get('product', [ProductController::class, 'index']);
 
 

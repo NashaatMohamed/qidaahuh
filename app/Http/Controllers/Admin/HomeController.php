@@ -31,6 +31,9 @@ class HomeController extends Controller
 
             return response()->json($data);
         }
+       
+
+
         $favourites = Favourite::create([
             'product_id' => $request,
             'user_id' => Auth::user()->id,
@@ -48,7 +51,32 @@ class HomeController extends Controller
     }
 
    
-    
-   
+    public function show(Favourite $Favourite)
+    {
+        if($Favourite->user_id == Auth::user()->id){
+             return $Favourite;
+         }else{
+            return response()->json([
+                'message' => 'The Favourite you\'re trying to view doesn\'t seem to be yours, .',
+            ], 403);
+         }
 
+    }
 }
+
+   
+ 
+// $CartItemm = DB::table('cart_items')
+// ->join('products', 'products.id', '=', 'cart_items.product_id')
+// ->where('cart_items.user_id', '=', Auth::user()->id)
+// ->select([
+//     'products.title',
+//     'products.main_image',
+//     'products.sale_price',
+//     'cart_items.quantity',
+//     'cart_items.id'
+// ])
+// ->get();
+
+//      return $CartItemm;
+

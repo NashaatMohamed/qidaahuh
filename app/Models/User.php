@@ -50,4 +50,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(userInfo::class);
     }
+
+    public function sendPasswordResetNotification($token)
+{
+    $this->notify(new \App\Notifications\MailResetPasswordNotification($token));
+}
+
+
+public function items () {
+    return $this->hasMany('App\Models\CartItem', 'user_id');
+}
 }
