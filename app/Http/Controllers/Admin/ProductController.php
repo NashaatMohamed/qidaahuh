@@ -8,6 +8,7 @@ use DB;
 use Session;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\products\ProdRequest;
 use App\Http\Requests\products\ProdRequestEdit;
@@ -31,8 +32,17 @@ class ProductController extends Controller
             $category = $request->category;
             $active = $request->active;
 
-            $query = product::whereRaw('true');
+           
+           
+            // $query = product::whereRaw('true') ;
 
+            $skus = OrderDetail::selectRaw('COUNT(*)')
+            ->whereColumn('product_id','products.id')
+            ->getQuery();
+        
+        $query = Product::select('*')
+            ->selectSub($skus, 'skus_count')
+            ->orderBy('skus_count', 'DESC')->get() ;
             if($active!=''){
                 $query->where('active',$active);
             }
@@ -46,15 +56,12 @@ class ProductController extends Controller
             }
 
 
-            $products = $query->paginate(8)
-            ->appends([
-                'q'     =>$q,
-                'category'=>$category,
-                'active'=>$active
-            ]);
+            $products = $query;
+           
 
             $categories = category::all();
             return response()->json(['status' => 200, 'item' =>  $products,  $categories ]);
+
 
 
 

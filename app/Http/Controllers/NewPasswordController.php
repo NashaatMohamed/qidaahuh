@@ -53,7 +53,7 @@ class NewPasswordController extends Controller
         if ($user) {
             $user->password = Hash::make($request->password);
             $user->save();
-            return response()->json(['status' => true, 'message' => 'password has been updated']);
+            return response()->json([$user->password,'status' => true, 'message' => 'password has been updated']);
 
         } else {
             return response()->json(['status' => false, 'message' => 'email not found, try again']);

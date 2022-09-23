@@ -36,8 +36,8 @@ class AuthController extends Controller
         event(new Registered($user));
 
         $accessToken = $user->createToken('authToken')->accessToken; ///authToken تم تسمية الtoken باي اسم
-        return response(['user' => $user, 'access_token' => $accessToken]);
-
+        // response(['user' => $user, 'access_token' => $accessToken]);
+      return   response()->json(['status' => true, 'statusCode' => 200, 'message' => 'Success you are register', 'user' => $user, 'access_token' => $accessToken]);
     }
 
 
@@ -63,7 +63,7 @@ class AuthController extends Controller
        return response (['user'=>$loginData]);
    }*/
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
-        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
+        return response()->json(['status' => true, 'statusCode' => 200, 'message' => 'Success you are login','user' => auth()->user(), 'access_token' => $accessToken]);
 
 
     }
@@ -183,7 +183,6 @@ class AuthController extends Controller
     function details($id)
     {
         $item = User::find($id);
-        dd($item);
         if (!$item) {
             return response()->json(['status' => 0, 'msg' => 'Invalid User Id']);
         }
@@ -201,6 +200,9 @@ class AuthController extends Controller
 
         $user = auth()->user();
         $user->f_name = $request->f_name;
+        $user->l_name = $request->l_name;
+        $user->phone = $request->phone;
+
         if ($request->image) {
             $fileName = $request->image->store("public/assets/img");
             $imageName = $request->image->hashName();
@@ -213,7 +215,7 @@ class AuthController extends Controller
 
             'status' => 1,
 
-            'msg' => 'Updated Successfully'
+            'msg' => 'Updated Successfully',$user
         ]);
     }
 }

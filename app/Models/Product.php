@@ -22,6 +22,13 @@ class Product extends Model
         'images'
     ];
 
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_details');
+    }
     public $timestamps = false;
       public function offer(){
     return $this->belongsTo(Offer::class,'offer_id');
