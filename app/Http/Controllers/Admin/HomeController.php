@@ -7,6 +7,7 @@ use App\Models\Favourite;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Announcement;
 
 class HomeController extends Controller
 {
@@ -46,6 +47,13 @@ class HomeController extends Controller
         return response()->json($data);
     }
 
-    
+
+    public function Anoncment_product_data(){
+        $annoncment = Announcement::select("text","image")->get();
+        $product = Product::whereNull("offer_id")->where("active",1)
+        ->select("title","slug","details","main_image","images","regular_price","sale_price","quantity")->get();
+
+        return response()->json(["allAnoncement" => $annoncment,"AllProduct" => $product]);
+    }
 
 }

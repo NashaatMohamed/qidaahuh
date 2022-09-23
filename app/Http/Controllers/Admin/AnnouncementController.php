@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Offer;
-use App\Models\Product;
+use App\Models\Announcement;
 use Validator;
-use DB;
 
-class OfferController extends Controller
+class AnnouncementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,32 +16,7 @@ class OfferController extends Controller
      */
     public function index()
     {
-        // show all product that have offers
-
-
-        // one Statment
-        // $allproduct = Product::with(["offer" =>function($query){
-        //     $query->select("text","id","offer_price");
-        // }])->whereNotNull("offer_id")->get();
-
-            // another Statment
-
-        // $allproduct = Product::with("offer:text,id,offer_price")->whereNotNull("offer_id")->get();
-
-
-        $allproducts = DB::table('products')
-        ->join("offers","products.offer_id" , "=", "offers.id")
-        ->select("offers.text","offers.offer_price","products.sale_price","products.regular_price")->get()->toArray();
-
-        // return $allproducts;
-        foreach( $allproducts as $allproduct){
-
-            $allproduct->sale_price = $allproduct->regular_price - ($allproduct->offer_price/100 * $allproduct->regular_price);
-            $allproduct->sale_price->save();
-        }
-
-
-        return $allproduct;
+        //
     }
 
     /**
@@ -65,15 +38,23 @@ class OfferController extends Controller
     public function store(Request $request)
     {
         $validated = Validator::make($request->all(),[
-            'offer_price' => "numeric|required",
+            'text' => "required",
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if($validated->fails())
-        return response()->json($validated->errors());
 
-        Offer::create($request->all());
+         return response()->json($validated->errors());
 
-        return response()->json("Offer added succefully");
+            $filename = '';
+            $filename = uploadImage("Announcements",$request->image);
+
+            $Announcement = Announcement::create([
+                'text' =>$request->text,
+                'image' => $filename,
+            ]);
+
+            return $Announcement;
     }
 
     /**
@@ -108,17 +89,23 @@ class OfferController extends Controller
     public function update(Request $request, $id)
     {
 
-        $offer = Offer::find($id);
+        $Announcement = Announcement::find($id);
+
         $validated = Validator::make($request->all(),[
-            'offer_price' => "numeric|required",
+            'text' => "required",
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if($validated->fails())
-        return response()->json($validated->errors());
 
-        $offer::update($request->all());
+         return response()->json($validated->errors());
 
-        return response()->json("Offer updated succefully");
+                    $Announcement->text = $request->text;
+                    if($request->has('image'))
+                    $filename = uploadImage("Announcements",$request->image);
+                    $Announcement->image = $filename;
+                    $Announcement->update();
+            return $Announcement;
     }
 
     /**
@@ -129,8 +116,12 @@ class OfferController extends Controller
      */
     public function destroy($id)
     {
-        $offer = Offer::find($id);
+        $Announcement = Announcement::find($id);
+        if(!$Announcement)
+        return response()->json("the Announcement is not found");
 
-        $offer->delete();
+        $Announcement->delete();
+         return response()->json("the Announcement is deleted");
+
     }
 }

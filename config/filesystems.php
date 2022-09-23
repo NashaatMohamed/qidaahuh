@@ -44,10 +44,18 @@ return [
 
         'subcategory' => [
             'driver' => 'local',
-            'root' => public_path() . 'assets/images/subcategory',
-            'url' => env('APP_URL').'/storage',
+            'root' => public_path() . '/assets/images/subcategory/',
+            'url' => env('APP_URL').'/public',
             'visibility' => 'public',
         ],
+
+        'Announcements' => [
+            'driver' => 'local',
+            'root' => public_path() . '/assets/images/Announcements/',
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],
+
 
         's3' => [
             'driver' => 's3',
