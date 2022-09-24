@@ -7,7 +7,9 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "heroku-postbuild": "npm run build"
+
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.4.0",
@@ -19,4 +21,5 @@
         "postcss": "^8.4.6",
         "tailwindcss": "^3.0.18"
     }
+    
 }
