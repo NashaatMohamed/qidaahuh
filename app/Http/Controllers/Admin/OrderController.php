@@ -5,22 +5,32 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
-
+use App\Models\OrderStatus;
+use App\Models\OrderDetail;
+use App\Models\Product;
 class OrderController extends Controller
 {
     public function index()
     {
-       $userOrders = Order::where('user_info_id', auth()->id())->get();
-       return $userOrders;
-    }
-    public function show(Order $order)
-    {
-        if($order->user_info_id == auth()->id()){
-             return $order;
-         }else{
-            return response()->json([
-                'message' => 'The order you\'re trying to view doesn\'t seem to be yours, hmmmm.',
-            ], 403);
-         }
+       $orders = Order::paginate(8);
 
-    }}
+       $status= OrderStatus::all();
+       return view("admin.order.index",compact('orders','status'));
+    }
+    public function show($id)
+    {
+        $order = Order::find($id);
+       
+        return view("admin.order.show",compact('order'));
+    }
+
+    public function destroy($id)
+    {
+        $item= Order::find($id);
+        $item->delete();
+        Session::flash("msg","تم حذف الطلب' بنجاح");
+        return redirect (route("order.index"));
+    }
+
+
+}

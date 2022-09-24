@@ -22,4 +22,10 @@ class Order extends Model
       'address' ,
       'text'];
 
+
+      public function orderItems()
+      {
+          return $this->hasMany(OrderDetail::class, 'order_id');
+      }
+
 }

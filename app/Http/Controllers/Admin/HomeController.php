@@ -107,6 +107,14 @@ class HomeController extends Controller
     ], 200); 
 
     }
+
+
+    $products = $query->paginate(8)
+    ->appends([
+        'q'     =>$q,
+        'category'=>$category,
+        'active'=>$active
+    ]);
 }
 
    

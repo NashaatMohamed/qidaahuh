@@ -171,8 +171,11 @@ class CartController extends Controller
 
                     
                 }else {
+                    $items = CartItem::where( ['user_id'=>$userID])->get();
+                   
+                    $skus= count($items);
                  $order = Order::create([
-                    'total_items' => json_encode($items),
+                    'total_items' => $skus,
                     'total_price' => $TotalPrice,
                     'name' => $name,
                     'user_info_id' =>$ID,

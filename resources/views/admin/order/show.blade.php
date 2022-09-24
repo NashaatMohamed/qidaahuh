@@ -56,7 +56,7 @@
                     <div class='col-sm-3'>
                         حالة الطلب:
                     </div>
-                    <form method='POST' action='{{route("order.updateStatus",$order->id)}}' class='col-sm-3'>
+                    {{-- <form method='POST' action='{{route("order.updateStatus",$order->id)}}' class='col-sm-3'>
                         @csrf
                         <div class='row'>
                             <div class='col-sm-8'>
@@ -70,12 +70,12 @@
                                 <button class='btn btn-primary'>حفظ</button>
                             </div>
                         </div>
-                    </form>
+                    </form> --}}
                     <div class='col-sm-3'>
                         الدولة:
                     </div>
                     <div class='col-sm-3'>
-                        <b>{{$order->country->name??''}}</b>
+                        <b>{{$order->address??''}}</b>
                     </div>
                 </div>
                 <hr>
@@ -95,12 +95,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php $total = 0 ?>
+                            <?php $total = 0 ?> 
                             @foreach($order->orderItems as $item)
                                 <?php $total+=$item->total_price ?>
                                 <tr role="row" class="odd">
 
-                                    <td>{{ $item->product['title']}}</td>
+                                    <td>{{ $item->products['title']}}</td>
                                     <td>{{ $item->price??''}}</td>
                                     <td>{{ $item->quantity??'' }}</td>
                                     <td>{{ $item->total_price??'' }}</td>

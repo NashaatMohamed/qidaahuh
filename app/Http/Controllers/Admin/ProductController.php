@@ -26,7 +26,7 @@ class ProductController extends Controller
         }
         return response()->json(['status'=>0,'msg'=>'invalid id']);
     }
-   public function index(Request $request)
+   public function indexx(Request $request)
         {
             $q = $request->q;
             $category = $request->category;
@@ -196,6 +196,47 @@ class ProductController extends Controller
     }
 
 
+    public function index(Request $request)
+    {
+        $q = $request->q;
+        $category = $request->category;
+        $active = $request->active;
 
+       
+       
+        // $query = product::whereRaw('true') ;
+
+        $skus = OrderDetail::selectRaw('COUNT(*)')
+        ->whereColumn('product_id','products.id')
+        ->getQuery();
+    
+    $query = Product::select('*')
+        ->selectSub($skus, 'skus_count')
+        ->orderBy('skus_count', 'DESC') ;
+        if($active!=''){
+            $query->where('active',$active);
+        }
+
+        if($category){
+            $query->where('category_id',$category);
+        }
+
+        if($q){
+            $query->whereRaw('(title like ? or slug like ?)',["%$q%","%$q%"]);
+        }
+
+
+        $products = $query->paginate(8)
+            ->appends([
+                'q'     =>$q,
+                'category'=>$category,
+                'active'=>$active
+            ]);
+
+        $categories = category::all();
+
+        return view ('admin.product.index',['products'=>$products,'categories'=> $categories]);
+
+    }
 
 }
