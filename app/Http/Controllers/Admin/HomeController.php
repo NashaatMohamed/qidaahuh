@@ -109,12 +109,7 @@ class HomeController extends Controller
     }
 
 
-    $products = $query->paginate(8)
-    ->appends([
-        'q'     =>$q,
-        'category'=>$category,
-        'active'=>$active
-    ]);
+   
 }
 
    
