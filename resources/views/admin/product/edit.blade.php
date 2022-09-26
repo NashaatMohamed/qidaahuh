@@ -1,9 +1,10 @@
 @extends("layouts.admin")
-@section("title","اضافة منتج جديد")
+@section("title","تعديل المنتج")
 
 @section("content")
 <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
-    <form enctype="multipart/form-data" method='post' action='{{asset("admin/products/".$product->id)}}'>
+    
+    <form enctype="multipart/form-data" method='post' action='{{route('products.update',$product->id)}}'>
         @csrf
         @method("put")
         <div class='m-form'>
@@ -25,13 +26,13 @@
                     </div>
 
                     <div class="form-group m-form__group row">
-                        <label class="col-lg-3 col-form-label">الصنف </label>
+                        <label class="col-lg-3 col-form-label">القسم الفرعي </label>
                         <div class="col-lg-6">
-                        <select class='form-control select2' name='category_id' id='category_id'>
-                            <option value=''>-اختر الصنف-</option>
-                            @foreach($categories as $category)
-                            <option {{old('category_id',$product->category_id)==$category->id?'selected':''}}
-                                value='{{$category->id}}'>{{$category->name}}</option>
+                        <select class='form-control select2' name='subcategory_id' id='subcategory_id'>
+                            <option value=''>-اختر القسم-</option>
+                            @foreach($SubCategories as $SubCategoriy)
+                            <option {{old('subcategory_id',$product->subcategory_id)==$SubCategoriy->id?'selected':''}}
+                                value='{{$SubCategoriy->id}}'>{{$SubCategoriy->sub_name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -46,7 +47,7 @@
                     <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label">السعر العادي </label>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control m-input" 
+                            <input type="text" class="form-control m-input"
                                 name="regular_price" value='{{ old("regular_price",$product->regular_price) }}'>
                         </div>
                     </div>
@@ -95,8 +96,8 @@
                         <div class="col-lg-3"></div>
                         <div class="col-lg-6">
                             <button class="btn btn-primary" type="submit">تعديل</button>
-                            <a href='{{route("products.index")}}' class="btn btn-secondary">الغاء الامر</a>
-                            
+                            <a href='{{route("products.indexx")}}' class="btn btn-secondary">الغاء الامر</a>
+
                         </div>
                     </div>
                 </div>

@@ -31,11 +31,17 @@ class OfferController extends Controller
         // $allproduct = Product::with("offer:text,id,offer_price")->whereNotNull("offer_id")->get();
 
 
-        $allproduct = DB::table('products')
+        $allproducts = DB::table('products')
         ->join("offers","products.offer_id" , "=", "offers.id")
-        ->select("products.title","offers.text","offers.offer_price")
-        ->update(["products.sale_price" => "products.regular_price" - ("offers.offer_price"/100)])
-        ->get();
+        ->select("offers.text","offers.offer_price","products.sale_price","products.regular_price")->get()->toArray();
+
+        // return $allproducts;
+
+        foreach( $allproducts as $allproduct){
+            $allproduct->sale_price = $allproduct->regular_price - ($allproduct->offer_price/100 * $allproduct->regular_price);
+            $allproduct->sale_price->save();
+        }
+
 
         return $allproduct;
     }

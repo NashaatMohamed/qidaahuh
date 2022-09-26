@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Session;
-use App\Models\Category;
+use App\Models\SubCategory;
+use App\Models\category;
 use App\Models\Product;
+use App\Models\Offer;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\products\ProdRequest;
@@ -26,20 +28,15 @@ class ProductController extends Controller
         }
         return response()->json(['status'=>0,'msg'=>'invalid id']);
     }
-   public function indexx(Request $request)
+   public function indexxx(Request $request)
         {
             $q = $request->q;
             $category = $request->category;
             $active = $request->active;
-
-           
-           
-            // $query = product::whereRaw('true') ;
-
             $skus = OrderDetail::selectRaw('COUNT(*)')
             ->whereColumn('product_id','products.id')
             ->getQuery();
-        
+
         $query = Product::select('*')
             ->selectSub($skus, 'skus_count')
             ->orderBy('skus_count', 'DESC')->get() ;
@@ -57,14 +54,46 @@ class ProductController extends Controller
 
 
             $products = $query;
-           
+
 
             $categories = category::all();
             return response()->json(['status' => 200, 'item' =>  $products,  $categories ]);
 
+        }
+
+        public function indexx(Request $request)
+        {
+            $q = $request->q;
+            $subcategory = $request->subcategory;
+            $active = $request->active;
+            $skus = OrderDetail::selectRaw('COUNT(*)')
+            ->whereColumn('product_id','products.id')
+            ->getQuery();
+
+        $query = Product::select('*')
+            ->selectSub($skus, 'skus_count')
+            ->orderBy('skus_count', 'DESC')->get() ;
+            if($active!=''){
+                $query->where('active',$active);
+            }
+
+            if($subcategory){
+                $query->where('subcategory_id',$subcategory);
+            }
+
+            if($q){
+                // $query->whereRaw('(title like ? or slug like ?)',["%$q%","%$q%"]);
+                //  return $q;
+                $query->where("title","LIKE","%$q%");
+            }
 
 
+            $products = $query;
 
+            $subcategories = SubCategory::all();
+            // $product = Product::find(15)->subCategory->sub_name;
+            // return $product;
+                return view("admin.product.index",compact(['products','subcategories']));
         }
          /**
      * Show the form for creating a new resource.
@@ -73,10 +102,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $products = product::all();
-        $categories = category::all();
-        return view("admin.product.create",compact('products','categories'));
-
+        $SubCategory = SubCategory::all();
+        $offers = Offer::all();
+        return view("admin.product.create",compact(['SubCategory','offers']));
     }
 
      /**
@@ -85,21 +113,22 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProdRequest $request)
+    public function store(Request $request)
     {
         $fileName = $request->image->store("public/assets/img");
         $imageName = $request->image->hashName();
 
         $requestData = $request->all();
-        //$requestData['slug'] = Str::slug($requestData['title']);
-
         $requestData['main_image'] = $imageName;
         $requestData['images'] = "1";
-        
 
-        product::create($requestData);
+        if($requestData["offer_id"]=="لايوجد خصم"){
+            $requestData["offer_id"] = NULL;
+        }
+        $product = Product::create($requestData);
         Session::flash("msg","s: تمت الإضافة بنجاح");
-        return redirect(route("products.index"));
+
+        return redirect()->route('products.indexx');
     }
     /**
      * Display the specified resource.
@@ -130,9 +159,12 @@ class ProductController extends Controller
             session()->flash("msg","e:العنوان غير صحيح");
             return redirect(route("products.index"));
         }
+        // return $product;
 
-        $categories = category::all();
-        return view("admin.product.edit",compact('product','categories'));
+        $SubCategories = SubCategory::all();
+        // return $SubCategories;
+        $offers = Offer::all();
+        return view("admin.product.edit",compact('product','SubCategories','offers'));
     }
 
     /**
@@ -142,7 +174,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(prodRequestEdit $request, $id)
+    public function update(Request $request, $id)
     {
         $productDB = product::find($id);
         $request['slug'] = Str::slug($request['title']);
@@ -158,18 +190,18 @@ class ProductController extends Controller
 
             product::where('id', $id)->update(array('title' => $request['title'],
                                                      'quantity'=> $request['quantity'],
-                                                     'category_id'=> $request['category_id'],
                                                      'regular_price'=> $request['regular_price'],
                                                      'sale_price'=> $request['sale_price'],
                                                      'details'=> $request['details'],
                                                      'slug'=> $request['slug'],
-                                                     'active'=> $request['active']
+                                                     'active'=> $request['active'],
+                                                     'subcategory_id'=>$request['subcategory_id']
                                                     ));
         }
 
 
         session()->flash("msg","s:تم تعديل المنتج بنجاح");
-        return redirect(route("products.index"));
+        return redirect(route("products.indexx"));
 
     }
 
@@ -183,11 +215,17 @@ class ProductController extends Controller
     {
         DB::table("products")->where("id",$id)->delete();
         session()->flash("msg","w:تم حذف المنتج بنجاح");
-        return redirect(route("products.index"));
+        return redirect(route("products.indexx"));
     }
 
     public function searchproduct($title){
-        $result  = Product::where("title" , "like","%$title%")->get();
+        $result  = Product::where("title" , "like","%$title%")
+        ->orWhere("slug" , "like" ,"%$title%")
+        ->orWhere("details" , "like" ,"%$title%")
+        ->orWhere("regular_price" , "like" ,"%$title%")
+        ->orWhere("sale_price" , "like" ,"%$title%")
+        ->orderBy("id","DESC")
+        ->get();
         if(count($result)){
              return response()->json($result);
         }else{

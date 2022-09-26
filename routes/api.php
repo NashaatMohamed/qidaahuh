@@ -59,8 +59,8 @@ Route::post('email/verification-notification', [EmailVerificationNotificationCon
     Route::get('/favourite/{id}/delete', [HomeController::class, 'destroy']);
 Route::get('/favourite/delete/all', [HomeController::class, 'delete']);
 
-    Route::apiResource('orders', 'OrderController')->except(['update', 'destroy','store']);
-    Route::apiResource('carts', 'CartController')->except(['update', 'index']);
+    Route::apiResource('orders', OrderController::class)->except(['update', 'destroy','store']);
+    Route::apiResource('carts', CartController::class)->except(['update', 'index']);
 // Route::post('/carts/{cart}/checkout', 'CartController@checkout');
 Route::post('/carts/{id}', [CartController::class, 'addProducts']);
 Route::post('/carts/{id}/checkout', [CartController::class, 'checkout']);

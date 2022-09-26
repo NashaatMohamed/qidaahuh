@@ -7,8 +7,12 @@ use App\Models\Favourite;
 use DB;
 
 use App\Models\Product;
+use App\Models\OrderStatus;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Announcement;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,7 +26,7 @@ class HomeController extends Controller
 
     public function favourite(Request $request): \Illuminate\Http\JsonResponse
     {
-       
+
         $validator = Validator::make($request->all(), [
             'product_id' => 'required',
         ]);
@@ -38,7 +42,7 @@ class HomeController extends Controller
 
         $productID = $request->input('product_id');
 
-        
+
             //Check if the proudct exist or return 404 not found.
             try { $Product = Product::findOrFail($productID);} catch (ModelNotFoundException $e) {
                 return response()->json([
@@ -56,12 +60,12 @@ class HomeController extends Controller
 
             return response()->json(['message' => 'The Favourite was updated with the given product information successfully'], 200);
 
-       
-    
+
+
     }
 
-   
-   
+
+
     public function show($id)
     {
        if (Auth::guard('api')->check()) {
@@ -82,37 +86,64 @@ class HomeController extends Controller
         ->get();
 
              return $Favourite;
-        
+
 
 
     }
     public function destroy($id)
     {
-       
+
         $Favourite = Favourite::where('user_id',auth('api')->user()->getKey())->where('product_id',$id)->delete();
-     
+
         return response()->json([
             'message' => 'delete  succefully!',
             'Favourite' => $Favourite,
-        ], 200); 
+        ], 200);
     }
-    public function delete()
-    {
 
-        $Favourite = Favourite::where('user_id',auth('api')->user()->getKey())->delete();
 
-       return response()->json([
-        'message' => 'delete all succefully!',
-        'Favourite' => $Favourite,
-    ], 200); 
 
+    public function Anoncment_product_data(){
+        $annoncment = Announcement::select("text","image")->get();
+        $product = Product::whereNull("offer_id")->where("active",1)
+        ->select("title","slug","details","main_image","images","regular_price","sale_price","quantity")->get();
+
+        return response()->json(["allAnoncement" => $annoncment,"AllProduct" => $product]);
+    }
+
+    public function product_details($id){
+        $product = Product::find($id);
+        if(!$product)
+        return "Sorry this product doesnot Exists :(";
+
+        return $product;
+    }
+
+    public function HomeInfo(){
+        $newstatus = OrderStatus::where("name",'جديد')->first();
+        $cancelStatus = OrderStatus::where("id",'5')->first();
+        $sendstatus = OrderStatus::where("name",'تم الارسال')->first();
+        $receivedStatus = OrderStatus::where("name",'تم التسليم')->first();
+        $workStatus = OrderStatus::where("name",'قيد العمل')->first();
+
+
+        $soldProducts = Product::where('quantity',0)->count();
+        $users = User::count();
+        $allProducts = Product::count();
+        $allOrder = Order::count();
+        $newOrder = Order::where("order_status_id",$newstatus->id)->count();
+        $orderCancel = Order::where("order_status_id",$cancelStatus->id)->count();
+        $orderwork = Order::where("order_status_id",$workStatus->id)->count();
+        $ordersend = Order::where("order_status_id",$sendstatus->id)->count();
+        return view("admin.Homeinfo",compact(['users','soldProducts','allProducts','orderCancel',
+        'allOrder','newOrder','orderwork','ordersend']));
     }
 
 
    
 }
 
-   
- 
+
+
 
 

@@ -15,4 +15,5 @@ class OrderStatus extends Model
     {
         return $this->hasOne(Order::class, 'order_status_id');
     }
+
 }

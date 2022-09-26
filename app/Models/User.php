@@ -20,9 +20,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'f_name',
-        'l_name',
-        'phone',
+        'name',
         'email',
         'password',
         'image',
@@ -52,10 +50,7 @@ class User extends Authenticatable
         return $this->belongsTo(userInfo::class);
     }
 
-    public function sendPasswordResetNotification($token)
-{
-    $this->notify(new \App\Notifications\MailResetPasswordNotification($token));
-}
+   
 
 
 public function items () {

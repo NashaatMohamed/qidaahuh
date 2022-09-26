@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Announcement extends Model
 {
     use HasFactory;
+
+    protected $fillable = ["text","image"];
 }
