@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Notifications\OffersNotification;
 
 class User extends Authenticatable
 {
@@ -60,4 +61,7 @@ class User extends Authenticatable
 public function items () {
     return $this->hasMany('App\Models\CartItem', 'user_id');
 }
+
+
+
 }

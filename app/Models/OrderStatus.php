@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class OrderStatus extends Model
 {
     use HasFactory;
+    protected $table = 'order_status';
+
+
+    public function orderStatus()
+    {
+        return $this->hasOne(Order::class, 'order_status_id');
+    }
 }

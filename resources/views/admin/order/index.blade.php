@@ -1,7 +1,7 @@
 @extends("layouts.admin")
 @section("title", "إدارة الطلبات ")
 @section("title-side")
-    <!-- <a href="{{asset('admin/products/create')}}"
+    <a href="{{asset('admin/products/create')}}"
     class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
     <span>
         <i class="la la-plus"></i>
@@ -9,11 +9,11 @@
             اضافة منتج جديد
         </span>
     </span>
-</a> -->
+</a> 
 @endsection
 
 @section("content")
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
         <div class="m-portlet__body">
             <form class='mb-3'>
                 <div class="row">
@@ -38,7 +38,7 @@
                     <div class='col-2'>
                         <input type="submit" class='btn btn-primary mr-2' value='بحث' />
                         <input type="submit" class='btn btn-secondary' value='مسح البحث'
-                               onclick="document.getElementById('q').value = ''; document.getElementById('order_status_id').value = ''; return true;" />
+                               onclick="document.getElementById('q').value = '';  return true;" />
                     </div>
 
                 </div>

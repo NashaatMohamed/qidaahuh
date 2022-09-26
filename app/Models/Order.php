@@ -22,4 +22,15 @@ class Order extends Model
       'address' ,
       'text'];
 
+
+      public function orderItems()
+      {
+          return $this->hasMany(OrderDetail::class, 'order_id');
+      }
+
+      public function orderStatus()
+      {
+          return $this->belongsTo(OrderStatus::class, 'order_status_id');
+      }
+
 }

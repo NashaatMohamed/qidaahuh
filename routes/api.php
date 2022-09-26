@@ -7,6 +7,9 @@ use App\Http\Controllers\Admin\CartController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\NewPasswordController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +36,19 @@ Route::post('reset/password', [NewPasswordController::class, 'reset']);
 
 
 Route::group(['middleware' => 'auth:api'], function () {
+
+    Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
+    ->name('verification.notice');
+
+Route::get('verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
+
+Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+    ->middleware('throttle:6,1')
+    ->name('verification.send');
+
+
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/edit/user', [AuthController::class, 'updateProfile']);
     Route::get('user/{id}/delete', [AuthController::class, 'destroy']);
@@ -56,7 +72,7 @@ Route::get('/carts/delete/all', [CartController::class, 'delete']);
 
 });
 Route::get("search/{title}",[ProductController::class,'searchproduct']);
-Route::get('product', [ProductController::class, 'index']);
+Route::get('product', [ProductController::class, 'indexx']);
 
 // Route::post('/carts', [CartController::class, 'store']);
 

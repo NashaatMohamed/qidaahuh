@@ -2,7 +2,7 @@
 @section("title","اضافة منتج جديد")
 
 @section("content")
-<div class="m-portlet m-portlet--mobile">
+<div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
     <form enctype="multipart/form-data" method='post' action='{{route("products.index")}}'>
         @csrf
         <div class='m-form'>

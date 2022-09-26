@@ -1,12 +1,9 @@
 @extends("layouts.admin")
-@section("title", "المستخدمين  ")
-@section("title-side")
 
-@endsection
 
-@section("content")
+@section("contentt")
     <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
-        <form method='post' action='{{route("user.update",$item->id)}}'>
+        <form method='post' action='{{route("user.updatee",$user->id)}}'>
             @csrf
             @method("put")
             <div class="m-portlet__body">

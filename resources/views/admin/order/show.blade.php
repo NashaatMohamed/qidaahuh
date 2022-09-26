@@ -6,7 +6,7 @@
 
 @section("content")
 
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
         <div class="m-portlet__body">
             <div id="m_table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                 <div class='row'>
@@ -75,7 +75,7 @@
                         الدولة:
                     </div>
                     <div class='col-sm-3'>
-                        <b>{{$order->country->name??''}}</b>
+                        <b>{{$order->address??''}}</b>
                     </div>
                 </div>
                 <hr>
@@ -95,12 +95,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php $total = 0 ?>
+                            <?php $total = 0 ?> 
                             @foreach($order->orderItems as $item)
                                 <?php $total+=$item->total_price ?>
                                 <tr role="row" class="odd">
 
-                                    <td>{{ $item->product['title']}}</td>
+                                    <td>{{ $item->products['title']}}</td>
                                     <td>{{ $item->price??''}}</td>
                                     <td>{{ $item->quantity??'' }}</td>
                                     <td>{{ $item->total_price??'' }}</td>

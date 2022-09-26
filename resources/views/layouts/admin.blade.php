@@ -118,8 +118,9 @@
                     @yield("title-side")
                 </div>
             </div>
+          
             <!-- END: Subheader -->
-            <div class="m-content">
+            <div class=" row">
 
 
                 @yield("content")
