@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Validator;
+
 use DB;
 use Session;
 use App\Models\SubCategory;
@@ -114,7 +116,19 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {$validated = $request->validate([
+        
+       
+            "title" => "required",
+            'quantity'=>"required",
+            'regular_price'=>"required",
+            'sale_price' =>"required",
+            'details'=>"required",
+            'slug' =>"required",
+            'subcategory_id' =>"required",
+            "image" => "required|image|mimes:jpeg,png,jpg,gif,svg|max:2048"
+
+        ]);
         $fileName = $request->image->store("public/assets/img");
         $imageName = $request->image->hashName();
 

@@ -3,7 +3,9 @@
 
 @section("content")
 <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
-   
+    @foreach ($errors->all() as $error)
+                <li class="text-danger m-5">{{ $error }}</li>
+            @endforeach
     <form enctype="multipart/form-data" method='post' action='{{route("products.store")}}'>
         @csrf
         <div class='m-form'>
@@ -107,10 +109,14 @@
             <div class="m-portlet__foot m-portlet__foot--fit">
                 <div class="m-form__actions m-form__actions">
                     <div class="row">
-                        <div class="col-lg-3"></div>
+                        <div class="col-lg-3">
+                           </div>
                         <div class="col-lg-6">
+
                             <button class="btn btn-primary" type="submit">إضافة</button>
+                            
                             <a href='{{route("products.indexx")}}' class="btn btn-secondary">الغاء الامر</a>
+                        
                         </div>
                     </div>
                 </div>
