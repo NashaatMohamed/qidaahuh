@@ -135,9 +135,39 @@ class HomeController extends Controller
         $orderCancel = Order::where("order_status_id",$cancelStatus->id)->count();
         $orderwork = Order::where("order_status_id",$workStatus->id)->count();
         $ordersend = Order::where("order_status_id",$sendstatus->id)->count();
+
+        
+;
         return view("admin.Homeinfo",compact(['users','soldProducts','allProducts','orderCancel',
         'allOrder','newOrder','orderwork','ordersend']));
     }
+
+    public function HomeMony(){
+
+
+//         $newOrder = Order::where("total_price")->sum();
+//  return $newOrder;
+
+$skus = Order::sum('total_price');
+$allProducts = Product::count();
+$allOrder = Order::count();
+$receivedStatus = OrderStatus::where("name",'تم التسليم')->first();
+
+$userOrder = Order::where("order_status_id",$receivedStatus->id)->count("user_info_id");
+
+
+            return view("admin.HomeMony",compact(['skus','allProducts','allOrder','userOrder']));
+
+     }
+
+
+
+     
+
+
+
+
+
 
 
    

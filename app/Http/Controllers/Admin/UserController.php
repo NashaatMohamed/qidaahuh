@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Validator;
 use Spatie\Permission\Models\Role;
+use Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class UserController extends Controller
 {
@@ -118,7 +120,16 @@ class UserController extends Controller
         return view("order.edit", compact('user'));
 
     }
+     
 
+
+    public function indexx()
+    {
+        $users = auth()->user();
+
+        
+            return view("admin.admin.index",compact('users'));
+    }
 }
 
 

@@ -44,11 +44,14 @@ Route::prefix("admin")->group(function(){
     Route::delete("delAnoncement/{id}",[AnnouncementController::class,'delete'])->name("Anoncement.delete");
     Route::get("user/{id}/delete",[UserController::class,'destroy'])->name("user.delete");
 
-   
+    Route::get("/admin/profile",[UserController::class ,'indexx'])->name('admin.indexx');
+
     
     Route::get('/send-notification', [NotificationController::class, 'sendOfferNotification']);
     Route::post("order/{id}",[OrderController::class,'updateStatus'])->name("order.updateStatus") ;
     Route::get("/Home",[HomeController::class,'HomeInfo'])->name("HomeStatstic.info");
+    Route::get("/Home/Mony",[HomeController::class,'HomeMony'])->name("HomeMony.HomeMony");
 
+    
 });
 // });
