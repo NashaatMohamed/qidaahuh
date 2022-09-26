@@ -42,15 +42,15 @@
 @endsection
 
 @section("content")
-<div class="m-portlet m-portlet--mobile">
-    <div class="m-portlet__body">
-        <form class='mb-3'>
+<div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
+    <div class="m-portlet__body ">
+        <form class='mb-3  '>
             <div class="row">
-                <div class='col-4'>
+                <div class='col-4 col-md-4 col-sm-4'>
                     <input name='q' id='q' value='{{request()->q}}' autofocus type="text" class='form-control  p-4'
                         placeholder="ابحث هنا..." />
                 </div>
-                <div class='col-2'>
+                <div class='col-md-2 col-sm-2'>
                     <select name='category' id='category' class='select2 form-control '>
                         <option value=''>الصنف</option>
                         @foreach($categories as $category)
@@ -60,14 +60,14 @@
                     </select>
 
                 </div>
-                <div class='col-2'>
+                <div class='col-md-2 col-sm-2'>
                     <select name='active' id='active' class='select2 form-control'>
                         <option value=''>الحالة</option>
                         <option {{ request()->active=='1'?"selected":"" }} value='1'>فعال</option>
                         <option {{ request()->active=='0'?"selected":"" }} value='0'>غير فعال</option>
                     </select>
                 </div>
-                <div class='col-4'>
+                <div class='col-md-4 col-sm-4'>
                     <input type="submit" class='btn btn-primary mr-2' value='بحث' />
                     <input type="submit" class='btn btn-secondary' value='مسح البحث'
                         onclick="document.getElementById('q').value = ''; document.getElementById('category').value = ''; document.getElementById('active').value = ''; return true;" />
@@ -76,9 +76,9 @@
             </div>
         </form>
 
-        <div id="m_table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+        <div id="m_table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer  ">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-12 col-md-12">
                     @if($products->count()>0)
                     <table
                         class="table table-striped- table-bordered table-hover table-checkable dataTable no-footer dtr-inline"

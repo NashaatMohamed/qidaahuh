@@ -129,7 +129,9 @@
                                                         </div>
                                                         <h3 class="dropdown-toolbar-title">Notifications (<span class="notif-count">0</span>)</h3>
                                                     </div>
+                                                   
                                                     <div class='user-notifications'></div>
+                                                   
                                                     <div class="dropdown-footer text-center">
                                                         <a href="#">View All</a>
                                                     </div>
@@ -189,7 +191,7 @@
                                                         </a>
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a href="" class="m-nav__link">
+                                                        <a  href='' class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-share"></i>
                                                             <span class="m-nav__link-text">تغيير كلمة المرور</span>
                                                         </a>

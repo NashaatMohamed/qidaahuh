@@ -15,18 +15,18 @@
 
 @section("content")
 
-<h2 class="text-center m-5 pt-5">    المنتج: {{$product->title }}</h2>
+<h2 class="text-center m-5 pt-5 col-md-12 col-sm-12 col-lg-12 col-auto">    المنتج: {{$product->title }}</h2>
 
 <div class="container d-flex justify-content-center align-items-center flex-column">
     <div class="card mb-3" style="max-width: 640px;">
         <div class="row no-gutters">
-            <div class="col-md-4">
+            <div class="col-md-3">
             <img class="card-img" src='{{asset("storage/assets/img/{$product->main_image}")}}'>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="card-body">
                     <h5 class="card-title">{{$product->title }}</h5>
-                    <p class="card-text">
+                    <p class="card-text ">
                         <ul> 
                                     <li>الصنف: {{ $product->category->name??'' }}</li>
                                     <li> تفاصيل المنتج:<br> {{ $product->details }}</li>

@@ -6,7 +6,7 @@
 
 @section("content")
 
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
         <div class="m-portlet__body">
             <div id="m_table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                 <div class='row'>
@@ -56,7 +56,7 @@
                     <div class='col-sm-3'>
                         حالة الطلب:
                     </div>
-                    {{-- <form method='POST' action='{{route("order.updateStatus",$order->id)}}' class='col-sm-3'>
+                    <form method='POST' action='{{route("order.updateStatus",$order->id)}}' class='col-sm-3'>
                         @csrf
                         <div class='row'>
                             <div class='col-sm-8'>
@@ -70,7 +70,7 @@
                                 <button class='btn btn-primary'>حفظ</button>
                             </div>
                         </div>
-                    </form> --}}
+                    </form>
                     <div class='col-sm-3'>
                         الدولة:
                     </div>

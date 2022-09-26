@@ -5,7 +5,7 @@
 @endsection
 
 @section("content")
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
         <div class="m-portlet__body">
             <form class='row mb-3'>
                 <div class='col-sm-8'>

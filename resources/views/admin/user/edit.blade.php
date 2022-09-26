@@ -5,7 +5,7 @@
 @endsection
 
 @section("content")
-    <div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
         <form method='post' action='{{route("user.update",$item->id)}}'>
             @csrf
             @method("put")

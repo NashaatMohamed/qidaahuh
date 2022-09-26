@@ -16,7 +16,7 @@ class OrderDetail extends Model
           'total_price'];
           public function products()
           {
-            return $this->belongsTo(Product::class);
-            //   return $this->belongsTo(Product::class)->withPivot(['quantity', 'total_price']);
+            return $this->belongsTo(Product::class,'product_id');
           }
 }
+

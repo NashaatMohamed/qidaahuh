@@ -83,7 +83,30 @@ class UserController extends Controller
     }
 
 
+    function updateProfile(Request $request)
+    {
+        $request->validate([
+            'f_name' => 'required|string|max:255',
+            'l_name' => 'required|string|max:255',
+            'phone' => 'numeric',
+            'image' => 'image',
+        ]);
 
+        $user = auth()->user();
+        $user->f_name = $request->f_name;
+        $user->l_name = $request->l_name;
+        $user->phone = $request->phone;
+
+        if ($request->image) {
+            $fileName = $request->image->store("public/assets/img");
+            $imageName = $request->image->hashName();
+            $user->image = $imageName;
+        }
+
+        $user->save();
+        return view("order.edit", compact('user'));
+
+    }
 
 }
 

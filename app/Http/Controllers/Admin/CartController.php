@@ -136,7 +136,9 @@ class CartController extends Controller
                     $TotalPrice = $TotalPrice + ($price * $item->quantity);
 
                     $product->quantity = $product->quantity - $item->quantity;
+
                     $product->save();
+
                 } else {
                     return response()->json([
                         'message' => 'The quantity you\'re ordering of ' . $item->title .
