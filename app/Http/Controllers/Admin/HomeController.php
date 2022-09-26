@@ -7,9 +7,12 @@ use App\Models\Favourite;
 use DB;
 
 use App\Models\Product;
+use App\Models\OrderStatus;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Announcement;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Validator;
 
@@ -108,6 +111,33 @@ class HomeController extends Controller
         return response()->json(["allAnoncement" => $annoncment,"AllProduct" => $product]);
     }
 
+    public function product_details($id){
+        $product = Product::find($id);
+        if(!$product)
+        return "Sorry this product doesnot Exists :(";
+
+        return $product;
+    }
+
+    public function HomeInfo(){
+        $newstatus = OrderStatus::where("name",'جديد')->first();
+        $cancelStatus = OrderStatus::where("name",'ملغى')->first();
+        $sendstatus = OrderStatus::where("name",'تم الارسال')->first();
+        $receivedStatus = OrderStatus::where("name",'تم التسليم')->first();
+        $workStatus = OrderStatus::where("name",'قيد العمل')->first();
+
+
+        $soldProducts = Product::where('quantity',0)->count();
+        $users = User::count();
+        $allProducts = Product::count();
+        $allOrder = Order::count();
+        $newOrder = Order::where("order_status_id",$newstatus->id)->count();
+        $orderCancel = Order::where("order_status_id",$cancelStatus->id)->count();
+        $orderwork = Order::where("order_status_id",$workStatus->id)->count();
+        $ordersend = Order::where("order_status_id",$sendstatus->id)->count();
+        return view("admin.Homeinfo",compact(['users','soldProducts','allProducts','orderCancel',
+        'allOrder','newOrder','orderwork','ordersend']));
+    }
 }
 
 

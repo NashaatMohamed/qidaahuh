@@ -26,4 +26,6 @@ Route::resource('subCat', SubbCategory::class);
 Route::resource('offer', OfferController::class);
 Route::resource('annoncement', AnnouncementController::class);
 Route::get('Homedata',[HomeController::class,'Anoncment_product_data']);
+Route::get("productData/{CategoryID}/SubCategory/{SubcategoryID}",[SubbCategory::class,'get_product_category_subcategory']);
+Route::get('productDetails/{id}',[HomeController::class,'product_details']);
 

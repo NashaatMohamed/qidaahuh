@@ -13,7 +13,7 @@ class Product extends Model
         'slug',
         'details',
         'main_image',
-        'SubCategory_id',
+        'subcategory_id',
         "offer_id",
         'regular_price',
         'sale_price',
@@ -22,15 +22,19 @@ class Product extends Model
         'images'
     ];
 
-    public function category(){
-        return $this->belongsTo(Category::class);
+    public function subCategory(){
+        return $this->belongsTo(SubCategory::class,"subcategory_id");
     }
+
     public function orders()
     {
         return $this->belongsToMany(Order::class, 'order_details');
     }
+
     public $timestamps = false;
+
       public function offer(){
     return $this->belongsTo(Offer::class,'offer_id');
   }
+
 }

@@ -14,9 +14,13 @@ class AnnouncementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $allAnoncements = Announcement::paginate(10);
+
+        // $q = request()->all();
+        // $allAnoncements = Announcement::where('text','LIKE',"%$q%")->paginate(5);
+        return view("admin.Anoncement.index",compact("allAnoncements"));
     }
 
     /**
@@ -26,7 +30,7 @@ class AnnouncementController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.Anoncement.create");
     }
 
     /**
@@ -54,7 +58,7 @@ class AnnouncementController extends Controller
                 'image' => $filename,
             ]);
 
-            return $Announcement;
+            return redirect()->route("Anoncement.index");
     }
 
     /**
@@ -76,7 +80,8 @@ class AnnouncementController extends Controller
      */
     public function edit($id)
     {
-        //
+                $Announcement = Announcement::find($id);
+                return view("admin.Anoncement.edit",compact('Announcement'));
     }
 
     /**
@@ -93,19 +98,20 @@ class AnnouncementController extends Controller
 
         $validated = Validator::make($request->all(),[
             'text' => "required",
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         if($validated->fails())
 
          return response()->json($validated->errors());
-
                     $Announcement->text = $request->text;
-                    if($request->has('image'))
+                    if($request->has('image')){
+                    $filename = '';
                     $filename = uploadImage("Announcements",$request->image);
                     $Announcement->image = $filename;
+                    }
                     $Announcement->update();
-            return $Announcement;
+            return redirect()->route("Anoncement.index");
     }
 
     /**
@@ -114,14 +120,10 @@ class AnnouncementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function delete($id){
         $Announcement = Announcement::find($id);
-        if(!$Announcement)
-        return response()->json("the Announcement is not found");
 
         $Announcement->delete();
-         return response()->json("the Announcement is deleted");
-
+        return redirect()->route("Anoncement.index");
     }
 }

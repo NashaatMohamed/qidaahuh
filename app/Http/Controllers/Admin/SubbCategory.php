@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use Validator;
 use App\Models\subcategory;
+use App\Models\Product;
 class SubbCategory extends Controller
 {
     /**
@@ -70,10 +71,20 @@ class SubbCategory extends Controller
     public function show($id)
     {
         $category = Category::find($id);
-        
+
         $subcategory = subcategory::where('category_id',$category->id)->get();
 
         return $subcategory;
+    }
+
+    public function get_product_category_subcategory($CategoryID,$SubcategoryID){
+
+        $category = Category::find($CategoryID);
+        $subcategory = subcategory::where('category_id',$category->id)->get();
+        $specificSub = $subcategory->find($SubcategoryID);
+        $product = Product::where("subcategory_id",$specificSub->id)
+        ->where("active",1)->whereNull("offer_id")->get();
+        return $product;
     }
 
     /**

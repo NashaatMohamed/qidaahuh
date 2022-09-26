@@ -8,22 +8,22 @@ use App\Http\Requests\User\EditRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Validator;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
-        //encrypt + decrypt
-        //encrypt('1');
-        //decrypt('nkjnbkj nbzcjm rsad;')
-        $q = $request->q;
-        $adminRole = Role::findByName('user');
-        $items = $adminRole->users()->whereRaw('(email like ? or f_name like ? or l_name like ?) ', ["%$q%", "%$q%", "%$q%"])
-            ->paginate(10)
-            ->appends(['q' => $q]);
+        // $q = $request->q;
+        // $adminRole = Role::findByName('user');
+        // $items = $adminRole->users()->whereRaw('(email like ? or f_name like ? or l_name like ?) ', ["%$q%", "%$q%", "%$q%"])
+        //     ->paginate(10)
+        //     ->appends(['q' => $q]);
 
-        return view("admin.user.index")->with('items', $items);
+        $users = User::paginate(10);
+        return view("admin.user.index",compact('users'));
+        return 'fuckus';
     }
 
     public function create()
@@ -31,15 +31,26 @@ class UserController extends Controller
         return view("admin.user.create");
     }
 
-    public function store(CreateRequest $request)
+    public function store(Request $request)
     {
+
+        $validate = Validator::make($request->all(),[
+            "image" => "required|image|mimes:jpeg,png,jpg,gif,svg|max:2048"
+        ]);
+
         $requestData = $request->all();
         $requestData['password'] = bcrypt($requestData['password']);
 
+        // $filname = '';
+        // $filname = uploadImage("imageProfile",$request->image);
+
+
+        // $requestData['image'] = $filename;
+
         $user = User::create($requestData);
-        $user->assignRole('user');
+        // $user->assignRole('user');
         Session::flash("msg", "s: تمت عملية الاضافة بنجاح");
-        return redirect(route("user.create"));
+        return redirect(route("user.index"));
     }
 
     public function show($id)
@@ -50,12 +61,12 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $item = User::find($id);
-        if (!$item) {
+        $user = User::find($id);
+        if (!$user) {
             session()->flash("msg", "e:عنوان المستخدم غير صحيح");
             return redirect(route("user.index"));
         }
-        return view("admin.user.edit", compact('item'));
+        return view("admin.user.edit", compact('user'));
     }
 
     public function update(EditRequest $request, $id)

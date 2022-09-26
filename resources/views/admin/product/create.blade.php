@@ -3,7 +3,7 @@
 
 @section("content")
 <div class="m-portlet m-portlet--mobile">
-    <form enctype="multipart/form-data" method='post' action='{{route("products.index")}}'>
+    <form enctype="multipart/form-data" method='post' action='{{route("products.store")}}'>
         @csrf
         <div class='m-form'>
             <div class="m-portlet__body">
@@ -11,37 +11,50 @@
                     <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label">اسم المنتج </label>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control m-input" placeholder="ادخل اسم المنتج" name="title"
-                                value='{{ old("title") }}'>
+                            <input type="text" class="form-control m-input" placeholder="ادخل اسم المنتج" name="title">
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label">الوصف </label>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control m-input" placeholder="ادخل الوصف " name="slug"
-                                value='{{ old("slug") }}'>
+                            <input type="text" class="form-control m-input" placeholder="ادخل الوصف " name="slug">
                         </div>
                     </div>
 
                     <div class="form-group m-form__group row">
-                        <label class="col-lg-3 col-form-label">الصنف </label>
+                        <label class="col-lg-3 col-form-label">القسم الفرعي </label>
                         <div class="col-lg-6">
-                            <select class="form-control chosen-rtl select" name='category_id' id='category_id'>
-                                <option selected>-اختر الصنف- </option>
-                                @foreach($categories as $category)
-                                <option {{old('category_id')==$category->id?'selected':''}} value='{{$category->id}}'>
-                                    {{$category->name}}</option>
+                            <select class="form-control chosen-rtl select" name='subcategory_id' id='subcategory_id'>
+                                <option selected>-اختر القسم الفرعي- </option>
+                                @foreach($SubCategory as $subCat)
+                                <option value='{{$subCat->id}}'>
+                                    {{$subCat->sub_name}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group m-form__group row">
+                        <label class="col-lg-3 col-form-label">القسم الفرعي </label>
+                        <div class="col-lg-6">
+                            <select class="form-control chosen-rtl select" name='offer_id' id='offer_id'>
+                                <option selected>-اختر  الخصم- </option>
+                                <option>لايوجد خصم</option>
+                                @foreach($offers as $offer)
+                                <option value='{{$offer->id}}'>
+                                    {{$offer->offer_price}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label" for="details">تفاصيل المنتج</label>
                         <div class="col-lg-6">
-                            <textarea class="form-control" id="details" name="details" rows="3">{{ old("details") }}</textarea>
-                    
-                        
+                            <textarea class="form-control" id="details" name="details" rows="3"></textarea>
+
+
                         </div>
                     </div>
 
@@ -49,22 +62,21 @@
                         <label class="col-lg-3 col-form-label">السعر العادي </label>
                         <div class="col-lg-6">
                             <input type="text" class="form-control m-input" placeholder="ادخل السعر "
-                                name="regular_price" value='{{ old("regular_price") }}'>
+                                name="regular_price">
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label">سعر الخصم </label>
                         <div class="col-lg-6">
                             <input type="text" class="form-control m-input" placeholder="ادخل سعر الخصم "
-                                name="sale_price" value='{{ old("sale_price") }}'>
+                                name="sale_price">
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label">الكمية المتوفرة</label>
                         <div class="col-lg-6">
                             <input type="text" class="form-control m-input"
-                                placeholder="ادخل الكمية المتوفرة من المنتج " name="quantity"
-                                value='{{ old("quantity") }}'>
+                                placeholder="ادخل الكمية المتوفرة من المنتج " name="quantity">
                         </div>
                     </div>
                     <div class="m-form__group form-group row">
@@ -97,7 +109,7 @@
                         <div class="col-lg-3"></div>
                         <div class="col-lg-6">
                             <button class="btn btn-primary" type="submit">إضافة</button>
-                            <a href='{{route("products.index")}}' class="btn btn-secondary">الغاء الامر</a>
+                            <a href='{{route("products.indexx")}}' class="btn btn-secondary">الغاء الامر</a>
                         </div>
                     </div>
                 </div>

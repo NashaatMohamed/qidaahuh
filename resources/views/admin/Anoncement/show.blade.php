@@ -1,7 +1,7 @@
 @extends("layouts.admin")
 
 @section("title-side")
-<a href="{{route('products.create')}}"
+<a href="{{asset('admin/products/create')}}"
     class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
     <span>
         <i class="la la-plus"></i>
@@ -27,29 +27,29 @@
                 <div class="card-body">
                     <h5 class="card-title">{{$product->title }}</h5>
                     <p class="card-text">
-                        <ul>
+                        <ul> 
                                     <li>الصنف: {{ $product->category->name??'' }}</li>
                                     <li> تفاصيل المنتج:<br> {{ $product->details }}</li>
                                     <li>الكمية المتوفرة: {{ $product->quantity }} </li>
-                                    <li> السعر الأصلي: {{ $product->regular_price }} </li>
-                                    <li> سعر العرض: {{ $product->sale_price }}</li>
-                                    <li> الحالة: {{$product->active=='1'?"فعال":"غير فعال"}} </li>
+                                    <li> السعر الأصلي: {{ $product->regular_price }} </li>   
+                                    <li> سعر العرض: {{ $product->sale_price }}</li>                                   
+                                    <li> الحالة: {{$product->active=='1'?"فعال":"غير فعال"}} </li>  
                         </ul>
                     </p>
-
+                    
                 </div>
             </div>
         </div>
-
+    
     </div>
     <div class="">
         <p class="card-text">
                 <a href='{{ route("products.edit",$product->id) }}' class='btn btn-sm btn-info'>تعديل</a>
                 <a class='btn btn-light' href='{{route("products.index")}}'>إالغاء</a>
-
-
+                
+                
         </p>
     </div>
-
+    
 </div>
 @endsection
