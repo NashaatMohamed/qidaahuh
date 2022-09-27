@@ -14,19 +14,34 @@
 
 @section("content")
 <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
-    <form method="post" action='{{route("category.index")}}'>
+    <form method="post" action='{{route("sub_category.index")}}'>
         @csrf
         <div class='m-form'>
+            @foreach ($errors->all() as $error)
+                <li class="text-danger m-5">{{ $error }}</li>
+            @endforeach
             <div class="m-portlet__body">
                 <div class="m-form__section m-form__section--first">
                     <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label">الاسم</label>
                         <div class="col-lg-6">
-                            <input type="text" name="name" value="{{old('name')}}" class="form-control m-input" placeholder="ادخل الاسم ">
+                            <input type="text" name="sub_name" value="{{old('sub_name')}}" class="form-control m-input" placeholder="ادخل الاسم ">
                             <span class="m-form__help">أدخل اسم التصنيف</span>
                         </div>
                     </div>
-                   
+                    <div class="col-lg-6 m-form__group form-group">
+                        <select class="form-control chosen-rtl select" name='category_id' id='subcategory_id'>
+                            <option selected>-اختر القسم  </option>
+                            @foreach($category as $Cat)
+                            <option value='{{$Cat->id}}'>
+                                {{$Cat->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="m-form__group form-group row">
+                        <label class="col-lg-3 col-form-label" for="details">الصورة الرئيسية</label>
+                        <input class="col-lg-6" type='file' name="photo" id="image" />
+                </div>
 
                     <div class="m-form__group form-group row">
                         <label class=" col-lg-3 col-form-label">فعال / غير فعال</label>
@@ -51,7 +66,7 @@
                         <div class="col-lg-3"></div>
                         <div class="col-lg-6">
                             <button type="submit" class="btn btn-primary">اضافة</button>
-                            <a href="{{asset('admin/category')}}" class="btn btn-secondary">الغاء الامر</a>
+                            <a href="{{asset('admin/sub_category')}}" class="btn btn-secondary">الغاء الامر</a>
                         </div>
                     </div>
                 </div>

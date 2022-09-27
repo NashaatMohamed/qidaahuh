@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\OrderController;
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AnnouncementController;
+use App\Http\Controllers\Admin\SubbCategory;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
 /*
@@ -52,6 +53,7 @@ Route::prefix("admin")->group(function(){
     Route::get("/Home",[HomeController::class,'HomeInfo'])->name("HomeStatstic.info");
     Route::get("/Home/Mony",[HomeController::class,'HomeMony'])->name("HomeMony.HomeMony");
 
-    
+    Route::resource('sub_category',SubbCategory::class);
+
 });
 // });

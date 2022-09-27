@@ -93,9 +93,11 @@ class ProductController extends Controller
             $products = $query;
 
             $subcategories = SubCategory::all();
+            $categories = category::all();
+
             // $product = Product::find(15)->subCategory->sub_name;
             // return $product;
-                return view("admin.product.index",compact(['products','subcategories']));
+                return view("admin.product.index",compact(['products','subcategories','categories']));
         }
          /**
      * Show the form for creating a new resource.

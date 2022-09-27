@@ -60,6 +60,19 @@
                         </select>
 
                     </div>
+
+
+
+                    <div class='col-2'>
+                        <select name='subcategory' id='subcategory' class='select2 form-control '>
+                            <option value=''>الاقسام الرئسيه</option>
+                            @foreach ($categories as $category)
+                                <option {{ request()->category == $category->id ? 'selected' : '' }} value="{{ $category->id }}">
+                                    {{ $category->name }}</option>
+                            @endforeach
+                        </select>
+
+                    </div>
                     <div class='col-2'>
                         <select name='active' id='active' class='select2 form-control'>
                             <option value=''>الحالة</option>

@@ -15,9 +15,40 @@ class SubbCategory extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    function index(Request $request){
 
+        $q=$request->q;
+
+         $active=$request->active;
+         $items=SubCategory::whereRaw("true");
+
+         if($active)
+         {
+             $items->where("active",$active);
+         }
+         if($active=="0")
+         {
+
+             $items->where("active",$active);
+         }
+         if($q)
+         {
+             $items->whereRaw('(name like ? )',["%$q%"]);
+         }
+
+
+       // dd($active);
+
+         $items=$items->paginate(10)
+         ->appends([
+             'q'=>$q,
+             'active'=>$active
+         ]);
+
+
+       // $items=Category::Paginate(10);
+       // dd($items);
+        return view("admin.subcategory.index")->with("items",$items);
     }
 
     /**
@@ -25,11 +56,13 @@ class SubbCategory extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    function create(){
+       
+$category=Category::all();
 
-    }
-
+        return view("admin.subcategory.create",compact('category'));
+      }
+  
     /**
      * Store a newly created resource in storage.
      *
@@ -40,26 +73,25 @@ class SubbCategory extends Controller
     {
         $category = Category::select("id")->get();
 
-        $validated = Validator::make($request->all(),[
+        $validated = $request->validate([
         'sub_name' => "required|unique:sub_categories,sub_name",
-        'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'photo' => 'required',
         'category_id' => 'required|numeric|exists:categories,id'
     ]);
 
-    if($validated->fails())
+    if($validated)
 
-     return response()->json($validated->errors());
-
-        $filename = '';
-        $filename = uploadImage("subcategory",$request->photo);
 
         $subcategory = subcategory::create([
             'sub_name' =>$request->sub_name,
-            'photo' => $filename,
-            'category_id' => $request->category_id
+            'photo' => $request->photo,
+            'category_id' => $request->category_id,
+            'active'=>$request->active
         ]);
 
-        return $subcategory;
+         $subcategory->save();
+         return redirect()->route('sub_category.index');
+
     }
 
     /**
@@ -93,9 +125,18 @@ class SubbCategory extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request , $id)
+    public function edit($id)
     {
+      $item= subcategory::find($id);
+        if(!$item)
+        {
+            session()->flash("msg","Invalid ID");
+            return redirect(route("category.index"));
+
+        }
+        return view("admin.subcategory.edit",compact('item'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -144,4 +185,10 @@ class SubbCategory extends Controller
         $subcategory->delete();
          return response()->json("the subCategory is deleted");
     }
+
+
+
+
+
+    
 }
