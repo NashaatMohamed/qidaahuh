@@ -56,9 +56,9 @@ return [
             'visibility' => 'public',
         ],
 
-        'imageProfile' => [
+        'images' => [
             'driver' => 'local',
-            'root' => public_path() . '/assets/images/profile/',
+            'root' => public_path() . '/public/assets/img/',
             'url' => env('APP_URL').'/public',
             'visibility' => 'public',
         ],
