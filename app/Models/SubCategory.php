@@ -15,7 +15,7 @@ class SubCategory extends Model
 
 
     public function Categories(){
-        return $this->hasMany(Category::class,'Category_id');
+        return $this->hasMany(Category::class,'category_id');
     }
 
 }

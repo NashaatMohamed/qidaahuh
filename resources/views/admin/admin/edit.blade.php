@@ -7,7 +7,7 @@
 @section("content")
     <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
         
-        <form enctype="multipart/form-data" method='post' action='{{route("admin.updateProfilee",$user->id)}}'>
+        <form method='post' action='{{route("admin.updateProfilee",$user->id)}}'>
             @csrf
             @method("put")
             <div class="m-portlet__body">
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <button class="btn btn-primary" type="submit">تعديل</button>
-                <a class='btn btn-light' href='{{route("admin.indexx")}}'>الغاء الأمر</a>
+                <a class='btn btn-light' href='{{route("user.index")}}'>الغاء الأمر</a>
 
             </div>
         </form>

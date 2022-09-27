@@ -146,7 +146,7 @@
                                 m-dropdown-toggle="click">
 
 
-                                <a href="#" class="m-nav__link m-dropdown__toggle"><span class="m-card-user__name m--font-weight-500">Admin</span>
+                                <a href="#" class="m-nav__link m-dropdown__toggle"><span class="m-card-user__name m--font-weight-500">{{auth()->user()->f_name??''}} {{auth()->user()->l_name??''}}</span>
                                     <span class="m-topbar__userpic">
                                         <img src="{{asset('metronic/assets/app/media/img/users/user.png')}}"
                                              class="m--img-rounded m--marginless  m-portlet m-portlet--bordered" alt="" />
@@ -162,13 +162,14 @@
                                              style="background: url({{asset('metronic/assets/app/media/img/misc/user_profile_bg.jpg')}}); background-size: cover;">
                                             <div class="m-card-user m-card-user--skin-dark">
                                                 <div class="m-card-user__pic">
-                                                    <img src="{{asset('metronic/assets/app/media/img/users/user.png')}}"
+                                                    <img src="{{asset('assets/' . auth()->user()->image??'')}}"
+
                                                          class="m--img-rounded m--marginless" alt="" />
 
 
                                                 </div>
                                                 <div class="m-card-user__details">
-                                                    <span class="m-card-user__name m--font-weight-500">{{auth()->user()->name??''}}</span>
+                                                    <span class="m-card-user__name m--font-weight-500">{{auth()->user()->f_name??''}} {{auth()->user()->l_name??''}}</span>
                                                     <a href="" onclick="event.preventDefault(); "
                                                        class="m-card-user__email m--font-weight-300 m-link">{{auth()->user()->email??''}}</a>
                                                 </div>
@@ -191,7 +192,7 @@
                                                         </a>
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a  href='' class="m-nav__link">
+                                                        <a  href='{{ route("user.edit",auth()->user()->id) }}' class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-share"></i>
                                                             <span class="m-nav__link-text">تغيير كلمة المرور</span>
                                                         </a>

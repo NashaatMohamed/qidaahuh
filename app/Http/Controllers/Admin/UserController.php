@@ -125,10 +125,38 @@ class UserController extends Controller
 
     public function indexx()
     {
-        $users = auth()->user();
-
+        // $users = Auth::user();
+        $users = user::where('id',Auth::id())->get();
+        // $users = user::all();
+        // return $users;
+       
         
             return view("admin.admin.index",compact('users'));
+    }
+
+
+
+    function updateProfilee(Request $request)
+    {
+        $request->validate([
+            'f_name' => 'required|string|max:255',
+            'l_name' => 'required|string|max:255',
+            'email'  => 'required',
+            'phone' => 'numeric',
+            'image' => 'image',
+        ]);
+
+        $user = auth()->user();
+        $user->f_name = $request->f_name;
+        $user->l_name = $request->l_name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $filename = '';
+        $filename = uploadImage("Announcements",$request->image);
+        $user->image=$filename;
+        $user->save();
+        return view("admin.admin.edit", compact('user'));
+
     }
 }
 

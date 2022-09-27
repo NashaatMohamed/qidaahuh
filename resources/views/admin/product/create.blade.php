@@ -38,11 +38,24 @@
                     </div>
 
                     <div class="form-group m-form__group row">
+                        <label class="col-lg-3 col-form-label">القسم الرئيسي</label>
+                        <div class="col-lg-6">
+                            <select name='category_id' id='subcategory' class='select2 form-control select'>
+                                <option value=''>الاقسام الرئسيه</option>
+                                @foreach ($Category as $category)
+                                    <option {{ request()->category == $category->id ? 'selected' : '' }} value="{{ $category->id }}">
+                                        {{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label">القسم الخصم </label>
                         <div class="col-lg-6">
                             <select class="form-control chosen-rtl select" name='offer_id' id='offer_id'>
                                 <option selected>-اختر  الخصم- </option>
-                                <option>لايوجد خصم</option>
+                                <option value="0">لايوجد خصم</option>
                                 @foreach($offers as $offer)
                                 <option value='{{$offer->id}}'>
                                     {{$offer->offer_price}}</option>

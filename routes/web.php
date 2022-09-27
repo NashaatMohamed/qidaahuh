@@ -30,7 +30,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
-Route::prefix("admin")->group(function(){
+Route::prefix("admin")->middleware(['auth','role:admin'])->group(function(){
     Route::get("/",[HomeController::class,'index']);
     Route::resource("category",CategoryController::class);
     Route::get("category/{id}/delete",[CategoryController::class,'destroy'])->name("category.delete");
@@ -46,6 +46,7 @@ Route::prefix("admin")->group(function(){
     Route::get("user/{id}/delete",[UserController::class,'destroy'])->name("user.delete");
 
     Route::get("/admin/profile",[UserController::class ,'indexx'])->name('admin.indexx');
+    Route::put("/admin/profilee",[UserController::class ,'updateProfilee'])->name('admin.updateProfilee');
 
     
     Route::get('/send-notification', [NotificationController::class, 'sendOfferNotification']);

@@ -106,9 +106,11 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $Category = Category::all();
+
         $SubCategory = SubCategory::all();
         $offers = Offer::all();
-        return view("admin.product.create",compact(['SubCategory','offers']));
+        return view("admin.product.create",compact(['SubCategory','offers','Category']));
     }
 
      /**
@@ -176,11 +178,12 @@ class ProductController extends Controller
             return redirect(route("products.index"));
         }
         // return $product;
+        $Category = Category::all();
 
         $SubCategories = SubCategory::all();
         // return $SubCategories;
         $offers = Offer::all();
-        return view("admin.product.edit",compact('product','SubCategories','offers'));
+        return view("admin.product.edit",compact('product','SubCategories','offers','Category'));
     }
 
     /**
