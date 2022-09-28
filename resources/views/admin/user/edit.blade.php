@@ -6,7 +6,7 @@
 
 @section("content")
     <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
-        
+
         <form enctype="multipart/form-data" method='post' action='{{route("admin.updateProfilee",$user->id)}}'>
             @csrf
             @method("put")
@@ -36,9 +36,9 @@
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
-                        <label class="col-lg-3 col-form-label">الاسم الثاني</label>
+                        <label class="col-lg-3 col-form-label"> صوره المستخدم</label>
                         <div class="col-lg-6">
-                            <input type="file" class="form-control m-input" placeholder="ادخل اسمك كاملاً" name="image" value='{{$user->image}}'>
+                            <input type="file" class="form-control m-input" name="image" value='{{$user->image}}'>
 
                         </div>
                     </div>

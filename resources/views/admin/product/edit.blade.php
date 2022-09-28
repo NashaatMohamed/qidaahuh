@@ -3,7 +3,7 @@
 
 @section("content")
 <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
-    
+
     <form enctype="multipart/form-data" method='post' action='{{route('products.update',$product->id)}}'>
         @csrf
         @method("put")
@@ -39,19 +39,6 @@
                     </div>
 
                     <div class="form-group m-form__group row">
-                        <label class="col-lg-3 col-form-label">القسم الرئيسي</label>
-                        <div class="col-lg-6">
-                            <select name='category_id' id='subcategory' class='select2 form-control select'>
-                                <option value=''>الاقسام الرئسيه</option>
-                                @foreach ($Category as $category)
-                                    <option {{old('category_id',$product->category_id) == $category->id ? 'selected' : '' }} 
-                                        value="{{ $category->id }}">
-                                        {{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label" for="details">تفاصيل المنتج</label>
                         <textarea class="form-control col-lg-6" id="details" name="details"
                             rows="3">{{ old("details",$product->details) }}</textarea>
@@ -65,7 +52,7 @@
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
-                        <label class="col-lg-3 col-form-label">سعر الخصم </label>
+                        <label class="col-lg-3 col-form-label">سعر البيع </label>
                         <div class="col-lg-6">
                             <input type="text" class="form-control m-input"
                                 name="sale_price" value='{{ old("sale_price",$product->sale_price) }}'>

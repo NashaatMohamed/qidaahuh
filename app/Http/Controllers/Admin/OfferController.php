@@ -33,12 +33,12 @@ class OfferController extends Controller
         ->join("offers","products.offer_id" , "=", "offers.id")
         ->select("offers.text","offers.offer_price","products.sale_price","products.regular_price")->get()->toArray();
 
-        // return $allproducts;
-
-        foreach( $allproducts as $allproduct){
-            $allproduct->sale_price = $allproduct->regular_price - ($allproduct->offer_price/100 * $allproduct->regular_price);
-        }
         return $allproducts;
+
+        // foreach( $allproducts as $allproduct){
+        //     $allproduct->sale_price = $allproduct->regular_price - ($allproduct->offer_price/100 * $allproduct->regular_price);
+        // }
+        // return $allproducts;
     }
 
     public function indexx(){

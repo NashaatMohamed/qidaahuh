@@ -25,8 +25,6 @@ class AuthController extends Controller
             'password_confirmation' => 'required|max:1000'
 
         ]);
-        /*  $d= AccountType::select('status')->where('id','=','6')->first();
-          $validateData['user_type'] =$d->status ;*/
         $validateData['password'] = bcrypt($request->password);
 
         $user = User::create($validateData);
@@ -148,7 +146,6 @@ class AuthController extends Controller
 
         $user = json_decode($response->getContent());
 
-
         $data = [
             'token' => $token,
             'user' => $user,
@@ -163,19 +160,27 @@ class AuthController extends Controller
      */
     public function adminRegister(Request $request)
     {
-        $validator = $request->validate([
-            'f_name' => 'required',
-            'l_name' => 'required',
-            'email' => 'required|email',
+        $validateData = $request->validate([
+            'f_name' => 'required|string|max:255',
+            'l_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|integer',
-            'password' => 'required',
-            'password_confirmation' => 'required|same:password',
+
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required|max:1000'
+
         ]);
+        $validateData['password'] = bcrypt($request->password);
 
-        $user = User::create($validator);
+        $user = User::create($validateData);
+        $user->assignRole('admin');
+        Auth::login($user);
 
-        $success['token'] = $user->createToken('MyApp', ['*'])->accessToken;
-        return response()->json(['success' => $success], 200);
+        event(new Registered($user));
+
+        $accessToken = $user->createToken('authToken')->accessToken; ///authToken تم تسمية الtoken باي اسم
+        // response(['user' => $user, 'access_token' => $accessToken]);
+      return   response()->json(['status' => true, 'statusCode' => 200, 'message' => 'Success you are register', 'user' => $user, 'access_token' => $accessToken]);
     }
 
     function details($id)

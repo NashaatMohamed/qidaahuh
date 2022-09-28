@@ -33,7 +33,7 @@ class ProductController extends Controller
    public function indexxx(Request $request)
         {
             $q = $request->q;
-            $category = $request->category;
+            $subcategories = $request->subcategories;
             $active = $request->active;
             $skus = OrderDetail::selectRaw('COUNT(*)')
             ->whereColumn('product_id','products.id')
@@ -46,8 +46,8 @@ class ProductController extends Controller
                 $query->where('active',$active);
             }
 
-            if($category){
-                $query->where('category_id',$category);
+            if($subcategories){
+                $query->where('subcategory_id',$subcategories);
             }
 
             if($q){
@@ -58,8 +58,8 @@ class ProductController extends Controller
             $products = $query;
 
 
-            $categories = category::all();
-            return response()->json(['status' => 200, 'item' =>  $products,  $categories ]);
+            $subcategories = SubCategory::all();
+            return response()->json(['status' => 200, 'item' =>  $products,  $subcategories ]);
 
         }
 
@@ -121,12 +121,11 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {$validated = $request->validate([
-        
-       
+
+
             "title" => "required",
             'quantity'=>"required",
             'regular_price'=>"required",
-            'sale_price' =>"required",
             'details'=>"required",
             'slug' =>"required",
             'subcategory_id' =>"required",
@@ -142,6 +141,15 @@ class ProductController extends Controller
 
         if($requestData["offer_id"]=="لايوجد خصم"){
             $requestData["offer_id"] = NULL;
+        }
+
+        // return $requestData;
+
+        if ($requestData["offer_id"] !=NULL){
+            $myoffer = Offer::where("id",$requestData["offer_id"])->select("offer_price")->first();
+            $requestData["sale_price"] =  $requestData["regular_price"] - ($myoffer['offer_price']/100 * $requestData["regular_price"]);
+        }else{
+            $requestData["sale_price"] = $requestData["regular_price"];
         }
         $product = Product::create($requestData);
         Session::flash("msg","s: تمت الإضافة بنجاح");
@@ -259,14 +267,14 @@ class ProductController extends Controller
         $category = $request->category;
         $active = $request->active;
 
-       
-       
+
+
         // $query = product::whereRaw('true') ;
 
         $skus = OrderDetail::selectRaw('COUNT(*)')
         ->whereColumn('product_id','products.id')
         ->getQuery();
-    
+
     $query = Product::select('*')
         ->selectSub($skus, 'skus_count')
         ->orderBy('skus_count', 'DESC') ;

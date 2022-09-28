@@ -15,7 +15,6 @@ class Product extends Model
         'main_image',
         'subcategory_id',
         "offer_id",
-        'category_id',
         'regular_price',
         'sale_price',
         'active',

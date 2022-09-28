@@ -1,7 +1,16 @@
 @extends("layouts.admin")
 @section("title", "المستخدمين ")
-@section("title-side")
 
+
+@section('title-side')
+    <a href="{{ route('user.create') }}" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+        <span>
+            <i class="la la-plus"></i>
+            <span>
+                اضافة مستخدم جديد
+            </span>
+        </span>
+    </a>
 @endsection
 
 @section("content")

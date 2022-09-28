@@ -37,25 +37,13 @@
                         </div>
                     </div>
 
-                    <div class="form-group m-form__group row">
-                        <label class="col-lg-3 col-form-label">القسم الرئيسي</label>
-                        <div class="col-lg-6">
-                            <select name='category_id' id='subcategory' class='select2 form-control select'>
-                                <option value=''>الاقسام الرئسيه</option>
-                                @foreach ($Category as $category)
-                                    <option {{ request()->category == $category->id ? 'selected' : '' }} value="{{ $category->id }}">
-                                        {{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
 
                     <div class="form-group m-form__group row">
-                        <label class="col-lg-3 col-form-label">القسم الخصم </label>
+                        <label class="col-lg-3 col-form-label">نسبة الخصم </label>
                         <div class="col-lg-6">
                             <select class="form-control chosen-rtl select" name='offer_id' id='offer_id'>
                                 <option selected>-اختر  الخصم- </option>
-                                <option value="0">لايوجد خصم</option>
+                                <option>لايوجد خصم</option>
                                 @foreach($offers as $offer)
                                 <option value='{{$offer->id}}'>
                                     {{$offer->offer_price}}</option>
@@ -82,9 +70,8 @@
                         </div>
                     </div>
                     <div class="form-group m-form__group row">
-                        <label class="col-lg-3 col-form-label">سعر الخصم </label>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control m-input" placeholder="ادخل سعر الخصم "
+                            <input type="hidden" class="form-control m-input" placeholder="ادخل سعر الخصم "
                                 name="sale_price">
                         </div>
                     </div>
@@ -127,9 +114,9 @@
                         <div class="col-lg-6">
 
                             <button class="btn btn-primary" type="submit">إضافة</button>
-                            
+
                             <a href='{{route("products.indexx")}}' class="btn btn-secondary">الغاء الامر</a>
-                        
+
                         </div>
                     </div>
                 </div>

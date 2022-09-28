@@ -21,10 +21,26 @@
                 <div class="m-portlet__body">
                     <div class="m-form__section m-form__section--first">
                         <div class="form-group m-form__group row">
-                            <label class="col-lg-3 col-form-label">الاسم</label>
+                            <label class="col-lg-3 col-form-label">الاول</label>
                             <div class="col-lg-6">
-                                <input type="text" name="name"  class="form-control m-input" placeholder="ادخل اسم المستخدم ">
+                                <input type="text" name="f_name"  class="form-control m-input" placeholder="ادخل الاسم الاول ">
                                 <span class="m-form__help">أدخل اسم السمتخدم</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label"> الاسم الثانى</label>
+                            <div class="col-lg-6">
+                                <input type="text" name="l_name"  class="form-control m-input" placeholder="ادخل الاسم الثانى">
+                                <span class="m-form__help">أدخل اسم السمتخدم</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">رقم الهاتف</label>
+                            <div class="col-lg-6">
+                                <input type="text" name="phone"  class="form-control m-input" placeholder="ادخل رقم الهاتف ">
+                                <span class="m-form__help">أدخل رقم الهاتف</span>
                             </div>
                         </div>
 

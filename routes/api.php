@@ -33,7 +33,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('change/password',  [NewPasswordController::class, 'forgotPassword']);
 Route::post('forgot/check-code', [NewPasswordController::class, 'checkCode']);
 Route::post('reset/password', [NewPasswordController::class, 'reset']);
-Route::post('/admin/Register', [AuthController::class, 'adminRegister']);
+Route::post('admin/Register', [AuthController::class, 'adminRegister']);
 Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])

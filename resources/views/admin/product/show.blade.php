@@ -14,7 +14,7 @@
 
 @section("content")
     <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
-        
+
 
             <div class="m-portlet__body">
                 <div class="m-form__section m-form__section--first">
@@ -22,7 +22,7 @@
 
                     <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label"> الصوره</label>
-                        <div class="col-lg-6">  
+                        <div class="col-lg-6">
                <img class="card-img" height=180 width= 180  src='{{ asset("storage/assets/img/{$product->main_image}") }}'>
 
                         </div>
@@ -40,7 +40,7 @@
                     <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label">الصنف:</label>
                         <div class="col-lg-6">
-                            {{ $product->category->name??'' }}
+                            {{ $product->subCategory->sub_name??'' }}
 
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                             {{ $product->details }}
                         </div>
                     </div>
-                    
+
 
                     <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label">الكمية المتوفرة:</label>
@@ -61,7 +61,7 @@
                     </div>
 
 
-                    
+
                     <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label">السعر الأصلي:</label>
                         <div class="col-lg-6">
@@ -76,22 +76,22 @@
                     <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label"> الحالة:</label>
                         <div class="col-lg-6">
-                            {{$product->active=='1'?"فعال":"غير فعال"}} 
+                            {{$product->active=='1'?"فعال":"غير فعال"}}
                         </div>
                     </div>
-                   
+
                 </div>
                 <div class="">
                     <p class="card-text">
                             <a href='{{ route("products.edit",$product->id) }}' class='btn btn-sm btn-info'>تعديل</a>
                             <a class='btn btn-light' href='{{route("products.index")}}'>إالغاء</a>
-            
-            
+
+
                     </p>
                 </div>
 
-         </div> 
-                   
+         </div>
+
 
     </div>
 
