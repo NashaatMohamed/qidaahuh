@@ -1,25 +1,21 @@
 @extends("layouts.admin")
 @section("title","اضافة مستخدم جديد")
 
-{{-- @section("title-side")
-    <!--a href="{{asset('admin/category/create')}}" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+ @section("title-side")
+    <a href="{{asset('admin/category/create')}}" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
     <span>
         <i class="la la-plus"></i>
         <span>
-            اضافة تصنيف جديد
+            اضافة مستخدم جديد
         </span>
     </span>
-</a-->
-@endsection --}}
+</a>
+@endsection
 
 @section("content")
-<<<<<<< HEAD
+
     <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
-        <form method="post" action='{{route("category.index")}}'>
-=======
-    <div class="m-portlet m-portlet--mobile">
         <form method="post" action="{{route('user.store')}}">
->>>>>>> b55d2a2e76d1787af21cf6fec53adddc639bf3d0
             @csrf
             <div class='m-form'>
                 <div class="m-portlet__body">

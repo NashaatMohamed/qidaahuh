@@ -19,8 +19,6 @@ class OfferController extends Controller
     public function index()
     {
         // show all product that have offers
-
-
         // one Statment
         // $allproduct = Product::with(["offer" =>function($query){
         //     $query->select("text","id","offer_price");
@@ -39,11 +37,14 @@ class OfferController extends Controller
 
         foreach( $allproducts as $allproduct){
             $allproduct->sale_price = $allproduct->regular_price - ($allproduct->offer_price/100 * $allproduct->regular_price);
-            $allproduct->sale_price->save();
         }
+        return $allproducts;
+    }
 
+    public function indexx(){
 
-        return $allproduct;
+        $offers = Offer::paginate(5);
+        return view("admin.Offer.index",compact("offers"));
     }
 
     /**
@@ -53,7 +54,7 @@ class OfferController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.Offer.create");
     }
 
     /**
@@ -73,7 +74,9 @@ class OfferController extends Controller
 
         Offer::create($request->all());
 
-        return response()->json("Offer added succefully");
+        // return response()->json("Offer added succefully");
+
+        return redirect(route("offer.indexx"));
     }
 
     /**
@@ -84,7 +87,9 @@ class OfferController extends Controller
      */
     public function show($id)
     {
-        //
+        $offer = Offer::find($id);
+
+        return view("admin.Offer.show",compact("offer"));
     }
 
     /**
@@ -95,7 +100,9 @@ class OfferController extends Controller
      */
     public function edit($id)
     {
-        //
+        $offer = Offer::find($id);
+
+        return view("admin.Offer.edit",compact("offer"));
     }
 
     /**
@@ -107,8 +114,6 @@ class OfferController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $offer = Offer::find($id);
         $validated = Validator::make($request->all(),[
             'offer_price' => "numeric|required",
         ]);
@@ -116,9 +121,14 @@ class OfferController extends Controller
         if($validated->fails())
         return response()->json($validated->errors());
 
-        $offer::update($request->all());
+        Offer::find($id)->update([
+            "text" =>$request['text'],
+            "offer_price" => $request["offer_price"]
+        ]);
 
-        return response()->json("Offer updated succefully");
+        // return response()->json("Offer updated succefully");
+
+        return redirect(route("offer.indexx"));
     }
 
     /**
@@ -132,5 +142,7 @@ class OfferController extends Controller
         $offer = Offer::find($id);
 
         $offer->delete();
+
+        return redirect(route("offer.indexx"));
     }
 }

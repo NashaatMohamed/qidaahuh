@@ -9,6 +9,8 @@ use DB;
 use App\Models\Product;
 use App\Models\OrderStatus;
 use App\Models\Order;
+use App\Models\Category;
+use App\Models\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Announcement;
@@ -121,7 +123,7 @@ class HomeController extends Controller
 
     public function HomeInfo(){
         $newstatus = OrderStatus::where("name",'جديد')->first();
-        $cancelStatus = OrderStatus::where("id",'5')->first();
+        $cancelStatus = OrderStatus::where("name",'ملغى')->first();
         $sendstatus = OrderStatus::where("name",'تم الارسال')->first();
         $receivedStatus = OrderStatus::where("name",'تم التسليم')->first();
         $workStatus = OrderStatus::where("name",'قيد العمل')->first();
@@ -136,7 +138,7 @@ class HomeController extends Controller
         $orderwork = Order::where("order_status_id",$workStatus->id)->count();
         $ordersend = Order::where("order_status_id",$sendstatus->id)->count();
 
-        
+
 ;
         return view("admin.Homeinfo",compact(['users','soldProducts','allProducts','orderCancel',
         'allOrder','newOrder','orderwork','ordersend']));
@@ -154,23 +156,21 @@ $allOrder = Order::count();
 $receivedStatus = OrderStatus::where("name",'تم التسليم')->first();
 
 $userOrder = Order::where("order_status_id",$receivedStatus->id)->count("user_info_id");
+$recentOrders = DB::table("orders")->orderBy("created_at","DESC")->get();
 
 
-            return view("admin.HomeMony",compact(['skus','allProducts','allOrder','userOrder']));
+            $category =Category::count();
+            $offers = Offer::count();
+
+            return view("admin.HomeMony",compact(['skus','allProducts','allOrder','userOrder','category','offers','recentOrders']));
 
      }
 
 
+    //  public function recentOrder(){
 
-     
-
-
-
-
-
-
-
-   
+    //     return view("admin.HomeMony",compact('recentOrders'));
+    //  }
 }
 
 

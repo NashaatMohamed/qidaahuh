@@ -74,6 +74,5 @@ Route::get('/carts/delete/all', [CartController::class, 'delete']);
 Route::get("search/{title}",[ProductController::class,'searchproduct']);
 Route::get('product', [ProductController::class, 'indexxx']);
 
-// Route::post('/carts', [CartController::class, 'store']);
 
 

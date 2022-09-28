@@ -129,9 +129,9 @@
                                                         </div>
                                                         <h3 class="dropdown-toolbar-title">Notifications (<span class="notif-count">0</span>)</h3>
                                                     </div>
-                                                   
+
                                                     <div class='user-notifications'></div>
-                                                   
+
                                                     <div class="dropdown-footer text-center">
                                                         <a href="#">View All</a>
                                                     </div>
@@ -162,7 +162,7 @@
                                              style="background: url({{asset('metronic/assets/app/media/img/misc/user_profile_bg.jpg')}}); background-size: cover;">
                                             <div class="m-card-user m-card-user--skin-dark">
                                                 <div class="m-card-user__pic">
-                                                    <img src="{{asset('assets/' . auth()->user()->image??'')}}"
+                                                    {{-- <img src="{{asset('assets/' . auth()->user()->image??'')}}" --}}
 
                                                          class="m--img-rounded m--marginless" alt="" />
 
@@ -192,7 +192,7 @@
                                                         </a>
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a  href='{{ route("user.edit",auth()->user()->id) }}' class="m-nav__link">
+                                                        {{-- <a  href='{{ route("user.edit",auth()->user()->id) }}' class="m-nav__link"> --}}
                                                             <i class="m-nav__link-icon flaticon-share"></i>
                                                             <span class="m-nav__link-text">تغيير كلمة المرور</span>
                                                         </a>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\OfferController;
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AnnouncementController;
@@ -30,7 +31,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
-Route::prefix("admin")->middleware(['auth','role:admin'])->group(function(){
+Route::prefix("admin")->group(function(){
     Route::get("/",[HomeController::class,'index']);
     Route::resource("category",CategoryController::class);
     Route::get("category/{id}/delete",[CategoryController::class,'destroy'])->name("category.delete");
@@ -48,13 +49,15 @@ Route::prefix("admin")->middleware(['auth','role:admin'])->group(function(){
     Route::get("/admin/profile",[UserController::class ,'indexx'])->name('admin.indexx');
     Route::put("/admin/profilee",[UserController::class ,'updateProfilee'])->name('admin.updateProfilee');
 
-    
+
     Route::get('/send-notification', [NotificationController::class, 'sendOfferNotification']);
     Route::post("order/{id}",[OrderController::class,'updateStatus'])->name("order.updateStatus") ;
     Route::get("/Home",[HomeController::class,'HomeInfo'])->name("HomeStatstic.info");
     Route::get("/Home/Mony",[HomeController::class,'HomeMony'])->name("HomeMony.HomeMony");
+    Route::get("recentOrder",[HomeController::class,'recentOrder'])->name("recent.order");
 
     Route::resource('sub_category',SubbCategory::class);
-
+    Route::resource('offers',OfferController::class);
+    Route::get("offerindex",[OfferController::class,'indexx'])->name("offer.indexx");
 });
-// });
+
