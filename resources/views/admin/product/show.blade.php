@@ -12,46 +12,87 @@
 </a>
 @endsection
 
-
 @section("content")
+    <div class="m-portlet m-portlet--mobile col-md-12 col-sm-12 col-lg-12 col-auto">
+        
 
-<h2 class="text-center m-5 pt-5 col-md-12 col-sm-12 col-lg-12 col-auto">    المنتج: {{$product->title }}</h2>
-
-<div class="container d-flex justify-content-center align-items-center flex-column">
-    <div class="card mb-3" style="max-width: 640px;">
-        <div class="row no-gutters">
-            <div class="col-md-3">
-            <img class="card-img" src='{{asset("storage/assets/img/{$product->main_image}")}}'>
-            </div>
-            <div class="col-md-9">
-                <div class="card-body">
-                    <h5 class="card-title">{{$product->title }}</h5>
+            <div class="m-portlet__body">
+                <div class="m-form__section m-form__section--first">
 
 
-                    <p class="card-text">
-                        <ul>
-                                    <li>الصنف: {{ $product->category->name??'' }}</li>
-                                    <li> تفاصيل المنتج:<br> {{ $product->details }}</li>
-                                    <li>الكمية المتوفرة: {{ $product->quantity }} </li>
-                                    <li> السعر الأصلي: {{ $product->regular_price }} </li>
-                                    <li> سعر العرض: {{ $product->sale_price }}</li>
-                                    <li> الحالة: {{$product->active=='1'?"فعال":"غير فعال"}} </li>
-                        </ul>
-                    </p>
+                    <div class="form-group m-form__group row">
+                        <label class="col-lg-3 col-form-label"> الصوره</label>
+                        <div class="col-lg-6">  
+               <img class="card-img" height=180 width= 180  src='{{ asset("storage/assets/img/{$product->main_image}") }}'>
 
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group m-form__group row">
+                        <label class="col-lg-3 col-form-label">المنتج:</label>
+                        <div class="col-lg-6">
+                            {{$product->title }}
+                        </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <label class="col-lg-3 col-form-label">الصنف:</label>
+                        <div class="col-lg-6">
+                            {{ $product->category->name??'' }}
+
+                        </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <label class="col-lg-3 col-form-label"> تفاصيل المنتج:</label>
+                        <div class="col-lg-6">
+                            {{ $product->details }}
+                        </div>
+                    </div>
+                    
+
+                    <div class="form-group m-form__group row">
+                        <label class="col-lg-3 col-form-label">الكمية المتوفرة:</label>
+                        <div class="col-lg-6">
+                            {{ $product->quantity }}
+                        </div>
+                    </div>
+
+
+                    
+                    <div class="form-group m-form__group row">
+                        <label class="col-lg-3 col-form-label">السعر الأصلي:</label>
+                        <div class="col-lg-6">
+                            {{ $product->regular_price }}                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <label class="col-lg-3 col-form-label">سعر العرض:</label>
+                        <div class="col-lg-6">
+                            {{ $product->sale_price }}
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <label class="col-lg-3 col-form-label"> الحالة:</label>
+                        <div class="col-lg-6">
+                            {{$product->active=='1'?"فعال":"غير فعال"}} 
+                        </div>
+                    </div>
+                   
                 </div>
-            </div>
-        </div>
+                <div class="">
+                    <p class="card-text">
+                            <a href='{{ route("products.edit",$product->id) }}' class='btn btn-sm btn-info'>تعديل</a>
+                            <a class='btn btn-light' href='{{route("products.index")}}'>إالغاء</a>
+            
+            
+                    </p>
+                </div>
+
+         </div> 
+                   
 
     </div>
-    <div class="">
-        <p class="card-text">
-                <a href='{{ route("products.edit",$product->id) }}' class='btn btn-sm btn-info'>تعديل</a>
-                <a class='btn btn-light' href='{{route("products.index")}}'>إالغاء</a>
 
-
-        </p>
-    </div>
-
-</div>
-@endsection
+    @endsection

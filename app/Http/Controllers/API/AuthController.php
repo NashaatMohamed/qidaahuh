@@ -56,7 +56,7 @@ class AuthController extends Controller
 
 
         if (!auth()->attempt($loginData)) {
-            return response(['message' => 'invalid credentials']);
+            return response(['status' => false, 'statusCode' => 404,'message' => 'invalid credentials']);
         } /*else{
        return response (['user'=>$loginData]);
    }*/
