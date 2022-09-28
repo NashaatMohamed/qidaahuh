@@ -31,7 +31,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
-Route::prefix("admin")->group(function(){
+Route::prefix("admin")->middleware(['auth','role:admin'])->group(function(){
     Route::get("/",[HomeController::class,'index']);
     Route::resource("category",CategoryController::class);
     Route::get("category/{id}/delete",[CategoryController::class,'destroy'])->name("category.delete");

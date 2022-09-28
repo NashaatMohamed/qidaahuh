@@ -37,7 +37,19 @@
                         </select>
                     </div>
                     </div>
-
+                    <div class="form-group m-form__group row">
+                        <label class="col-lg-3 col-form-label">نسبة الخصم </label>
+                        <div class="col-lg-6">
+                            <select class="form-control chosen-rtl select" name='offer_id' id='offer_id'>
+                                <option selected>-اختر  الخصم- </option>
+                                <option>لايوجد خصم</option>
+                                @foreach($offers as $offer)
+                                <option value='{{$offer->id}}'>
+                                    {{$offer->offer_price}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group m-form__group row">
                         <label class="col-lg-3 col-form-label" for="details">تفاصيل المنتج</label>
                         <textarea class="form-control col-lg-6" id="details" name="details"

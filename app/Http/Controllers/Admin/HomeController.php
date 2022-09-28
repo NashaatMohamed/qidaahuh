@@ -123,7 +123,7 @@ class HomeController extends Controller
 
     public function HomeInfo(){
         $newstatus = OrderStatus::where("name",'جديد')->first();
-        $cancelStatus = OrderStatus::where("name",'ملغى')->first();
+        $cancelStatus = OrderStatus::where("id",'5')->first();
         $sendstatus = OrderStatus::where("name",'تم الارسال')->first();
         $receivedStatus = OrderStatus::where("name",'تم التسليم')->first();
         $workStatus = OrderStatus::where("name",'قيد العمل')->first();
