@@ -183,8 +183,9 @@ class AuthController extends Controller
       return   response()->json(['status' => true, 'statusCode' => 200, 'message' => 'Success you are register', 'user' => $user, 'access_token' => $accessToken]);
     }
 
-    function details($id)
+    function details()
     {
+        $id =Auth::id();
         $item = User::find($id);
         if (!$item) {
             return response()->json(['status' => 0, 'msg' => 'Invalid User Id']);

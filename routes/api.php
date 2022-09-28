@@ -51,7 +51,7 @@ Route::post('email/verification-notification', [EmailVerificationNotificationCon
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/edit/user', [AuthController::class, 'updateProfile']);
     Route::get('user/{id}/delete', [AuthController::class, 'destroy']);
-    Route::get('show/user/{id}', [AuthController::class, 'details']);
+    Route::get('show/user', [AuthController::class, 'details']);
     Route::get('show/category/{id}', [CategoryController::class, 'show']);
     Route::post('favourite/product', [HomeController::class, 'favourite']);
     Route::get('favourite/show/{id}', [HomeController::class, 'show']);
@@ -67,11 +67,11 @@ Route::get('/show/carts/{id}', [CartController::class, 'show']);
 Route::get('/carts/{id}/delete', [CartController::class, 'destroy']);
 Route::get('/carts/delete/all', [CartController::class, 'delete']);
 
-
-
-});
 Route::get("search/{title}",[ProductController::class,'searchproduct']);
 Route::get('product', [ProductController::class, 'indexxx']);
+
+});
+
 
 
 
